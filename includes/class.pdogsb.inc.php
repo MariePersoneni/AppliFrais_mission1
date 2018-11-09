@@ -115,39 +115,25 @@ class PdoGsb
      * 
      * @return l'id, le nom et le prÃ©nom sous la forme d'un tableau associatif
      */
-    public function getInfosUtilisateur($login, $mdp, &$profil)
-    {
-        $requetePrepare = PdoGsb::$monPdo->requeteGetInfosUtilisateur('visiteur', $login,$mdp);
-        $profil = 'visiteur';
-        if (!is_array($requetePrepare)){
-            $requetePrepare =  requeteGetInfosUtilisateur('comptable', $login,$mdp);
-            $profil = 'comptable';
-        }
-        return $requetePrepare->fetch();
-    }
-    
-    
-    /**
-     * Retourne les informations d'un visiteur ou d'un comptable selon la table envoyée en paramètre
-     * 
-     * @param String $table     table dans laquelle les infos sont récupérées
-     * @param String $login     Login de l'utilisateur
-     * @param String $mdp       Mot de passe de l'utilisateur
-     * 
-     * @return l'id, le nom et le prÃ©nom sous la forme d'un tableau associatif
-     */
-    public function requeteGetInfosUtilisateur($table,$login,$mdp){
+    public function getInfosUtilisateur($login, $mdp, $table)
+    {    
         $requetePrepare = PdoGsb::$monPdo->prepare(
-            'SELECT :table.id AS id, :table.nom AS nom, '
-            . ':table.prenom AS prenom '
-            . 'FROM :table '
-            . 'WHERE :table.login = :unLogin AND :table.mdp = :unMdp'
+            "SELECT {$table}.id AS id, {$table}.nom AS nom, "
+            . "{$table}.prenom AS prenom "
+            . "FROM {$table} "
+            . "WHERE {$table}.login = :unLogin AND {$table}.mdp = :unMdp"
             );
         $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':table', $table, PDO::PARAM_STR);
-        $requetePrepare->execute();
+        $requetePrepare->execute();        
         return $requetePrepare->fetch();
+//         $requetePrepare = requeteGetInfosUtilisateur('visiteur', $login,$mdp);
+//         $profil = 'visiteur';
+//         if (!is_array($requetePrepare)){
+//             $requetePrepare =  requeteGetInfosUtilisateur('comptable', $login,$mdp);
+//             $profil = 'comptable';
+//         }
+//         return $requetePrepare->fetch();
     }
     
 
