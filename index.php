@@ -39,6 +39,12 @@ case 'gererFrais':
 case 'etatFrais':
     include 'controleurs/c_etatFrais.php';
     break;
+case 'validerFiche':
+    include 'controleurs/c_validerFiche.php';
+    break;
+case 'suivrePaiement':
+    include 'controleurs/c_suivrePaiement.php';
+    break;
 case 'deconnexion':
     include 'controleurs/c_deconnexion.php';
     break;
