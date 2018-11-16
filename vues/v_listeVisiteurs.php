@@ -13,10 +13,6 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-function MAJlesMoisDisponibles(&$lesMois, $idVisiteur)
-{
-    $lesMois = getLesMoisDisponibles($idVisiteur);
-}
 ?>
 <h2>Valider la fiche de frais</h2>
 <div class="row">
