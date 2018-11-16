@@ -35,6 +35,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
+                    	<!-- Boutons pour le profil visiteur -->
                     	<?php if ($_SESSION['profil'] == 'visiteur') { ?>
                             <a href="index.php?uc=gererFrais&action=saisirFrais"
                                class="btn btn-success btn-lg" role="button">
@@ -45,11 +46,12 @@
                                 <span class="glyphicon glyphicon-list-alt"></span>
                                 <br>Afficher mes fiches de frais</a>
                         <?php } else { ?>
-                            <a href="index.php?uc=gererFrais&action=saisirFrais"
+                        <!-- Boutons pour le profil comptable -->
+                            <a href="index.php?uc=validerFiche&action=selectionnerVisiteur"
                                class="btn btn-success btn-lg" role="button">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <br>Valider les fiches de frais</a>
-                            <a href="index.php?uc=etatFrais&action=selectionnerMois"
+                            <a href="index.php?uc=suivrePaiement&action=selectionnerMois"
                                class="btn btn-primary btn-lg" role="button">
                                 <span class="glyphicon glyphicon-list-alt"></span>
                                 <br>Suivre le paiement des fiches de frais</a>
