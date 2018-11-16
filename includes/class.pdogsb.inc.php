@@ -236,6 +236,34 @@ class PdoGsb
         }
     }
 
+    
+    /**
+     * Modifie dans la base de donnÈes la ligne de frais
+     * hors forfait passÈe en paramËtre et la modifie selon
+     * le motif : rejeter / reporter
+     * 
+     * @param String $idFrais : n∞ id du frais hors forfait
+     * @param integer $motif : 0 = rejeter; 1 = reporter
+     * comportement selon le motif :
+     * 0 => reporte le frais sur la fiche du mois suivant
+     * 1 => ajout "REJETE" devant le libellÈ du frais
+     */
+    public function majFraisHorsForfait($idFrais, $motif)
+    {
+        if ($motif == 0) { // REJETER
+            
+        } else { // REPORTER
+            
+        }
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'UPDATE lignefraishorsforfait '
+        );
+        
+        
+        
+    }
+    
+    
     /**
      * Met √† jour le nombre de justificatifs de la table ficheFrais
      * pour le mois et le visiteur concern√©
