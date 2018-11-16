@@ -81,28 +81,6 @@ class PdoGsb
         }
         return PdoGsb::$monPdoGsb;
     }
-
-    /**
-     * Retourne les informations d'un visiteur
-     *
-     * @param String $login Login du visiteur
-     * @param String $mdp   Mot de passe du visiteur
-     *
-     * @return l'id, le nom et le prÃ©nom sous la forme d'un tableau associatif
-     */
-    public function getInfosVisiteur($login, $mdp)
-    {
-        $requetePrepare = PdoGsb::$monPdo->prepare(
-            'SELECT visiteur.id AS id, visiteur.nom AS nom, '
-            . 'visiteur.prenom AS prenom '
-            . 'FROM visiteur '
-            . 'WHERE visiteur.login = :unLogin AND visiteur.mdp = :unMdp'
-        );
-        $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
-        $requetePrepare->execute();
-        return $requetePrepare->fetch();
-    }
     
     
     /**
@@ -127,13 +105,6 @@ class PdoGsb
         $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
         $requetePrepare->execute();        
         return $requetePrepare->fetch();
-//         $requetePrepare = requeteGetInfosUtilisateur('visiteur', $login,$mdp);
-//         $profil = 'visiteur';
-//         if (!is_array($requetePrepare)){
-//             $requetePrepare =  requeteGetInfosUtilisateur('comptable', $login,$mdp);
-//             $profil = 'comptable';
-//         }
-//         return $requetePrepare->fetch();
     }
     
 
@@ -464,6 +435,34 @@ class PdoGsb
             );
         }
         return $lesMois;
+    }
+    
+    
+    /**
+     * Récupère tous les visiteurs de la base de données
+     * @return un tableau associatif qui contien l'id, le nom et prénom
+     * de chaque visiteur
+     */
+    public function getLesVisiteurs() 
+    {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'SELECT visiteur.id AS id, visiteur.nom AS nom, ' 
+            . 'visiteur.prenom AS prenom '
+            . 'FROM visiteur'
+        );
+        $requetePrepare->execute();
+        $lesVisiteurs = array();
+        while($laLigne = $requetePrepare->fetch()) {
+            $idVisiteur = $laLigne['id'];
+            $nomVisiteur = $laLigne['nom'];
+            $prenomVisiteur = $laLigne['prenom'];
+            $lesVisiteurs[] = array(
+                'id' => $idVisiteur,
+                'nom' => $nomVisiteur,
+                'prenom' => $prenomVisiteur
+            );
+        }
+        return $lesVisiteurs;
     }
 
     /**
