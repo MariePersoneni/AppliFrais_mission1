@@ -89,7 +89,7 @@ function dateAnglaisVersFrancais($maDate)
  */
 function getMois($date)
 {
-    @list($jour, $mois, $annee) = explode('/', $date);
+    @list($jour, $mois, $annee) = explode('-', $date);
     unset($jour);
     if (strlen($mois) == 1) {
         $mois = '0' . $mois;
@@ -97,26 +97,34 @@ function getMois($date)
     return $annee . $mois;
 }
 
+
+/**
+ * Retourne un tableau associatif qui contient les mois
+ * d'un an en arrière depuis la date du jour
+ * @return string[]|number[]
+ */
 function getLesMois()
 {
-    $dateJ = new DateTime(); // récupère la date du jour
-    @list($jour, $mois, $annee) = explode('/', $dateJ);
-    unset($jour);
-    for ($i = 0 ; $i <12 ; $i++) {
-        
-    }
-    
-    while ($laLigne = $requetePrepare->fetch()) {
-        $mois = $laLigne['mois'];
-        $numAnnee = substr($mois, 0, 4);
-        $numMois = substr($mois, 4, 2);
-        $lesMois[] = array(
-            'mois' => $mois,
-            'numAnnee' => $numAnnee,
-            'numMois' => $numMois
+    $mois   = date('m');
+    $annee  = date('Y');
+    for ($i = 0 ; $i <12 ; $i++) { 
+        $lesMois[] = array(            
+            'mois'      => $annee . $mois,
+            'numAnnee'  => $annee,
+            'numMois'   => $mois
         );
+        $mois--; // Décrémente le mois
+        if (strlen($mois) == 1) {
+            $mois = '0' . $mois;
+        }
+        if ($mois   == 0) {
+            $mois   = 12;
+            $annee --;
+        }
     }
+    return $lesMois;
 }
+
 /* gestion des erreurs */
 
 /**
