@@ -23,8 +23,12 @@ if ($lesInfosFicheFrais) {
 		<form method="post"
 			action="index.php?uc=validerFiche&action=validerMajFraisForfait"
 			role="form">
-			<fieldset>       
-                <?php                
+			<fieldset>    
+			<input type="hidden" id="idVisiteur" name="idVisiteur" 
+			value="<?php echo $visiteurASelectionner ?>">
+			<input type="hidden" id="mois" name="mois" 
+			value="<?php echo $moisASelectionner ?>">
+                <?php
                 foreach ($lesFraisForfait as $unFrais) {
                     $idFrais = $unFrais['idfrais'];
                     $libelle = htmlspecialchars($unFrais['libelle']);
@@ -71,8 +75,16 @@ if ($lesInfosFicheFrais) {
 					<td> <?php echo $date ?></td>
 					<td> <?php echo $libelle ?></td>
 					<td><?php echo $montant ?></td>
-					<td><button class="btn btn-success" type="submit">Corriger</button>
-						<button class="btn btn-danger" type="reset">Réinitialiser</button></td>
+					<td>
+    					<form 	method="post"
+    							action="index.php?uc=validerFiche&action=reporterFraisHorsForfait">
+        					<button class="btn btn-success" type="button">Reporter</button>
+    					</form>
+    					<form 	method="post"
+    							action="index.php?uc=validerFiche&action=rejeterFraisHorsForfait">
+        					<button class="btn btn-danger" type="button">Rejeter</button>
+    					</form>
+					</td>
 				</tr>               
                 <?php
             }
