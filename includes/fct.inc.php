@@ -21,7 +21,7 @@
  */
 function estConnecte()
 {
-    return isset($_SESSION['idVisiteur']);
+    return isset($_SESSION['idUtilisateur']);
 }
 
 /**
@@ -35,7 +35,7 @@ function estConnecte()
  */
 function connecter($idVisiteur, $nom, $prenom, $profil)
 {
-    $_SESSION['idVisiteur'] = $idVisiteur;
+    $_SESSION['idUtilisateur'] = $idVisiteur;
     $_SESSION['nom']        = $nom;
     $_SESSION['prenom']     = $prenom;
     $_SESSION['profil']     = $profil;
@@ -97,6 +97,26 @@ function getMois($date)
     return $annee . $mois;
 }
 
+function getLesMois()
+{
+    $dateJ = new DateTime(); // récupère la date du jour
+    @list($jour, $mois, $annee) = explode('/', $dateJ);
+    unset($jour);
+    for ($i = 0 ; $i <12 ; $i++) {
+        
+    }
+    
+    while ($laLigne = $requetePrepare->fetch()) {
+        $mois = $laLigne['mois'];
+        $numAnnee = substr($mois, 0, 4);
+        $numMois = substr($mois, 4, 2);
+        $lesMois[] = array(
+            'mois' => $mois,
+            'numAnnee' => $numAnnee,
+            'numMois' => $numMois
+        );
+    }
+}
 /* gestion des erreurs */
 
 /**
@@ -248,3 +268,5 @@ function nbErreurs()
         return count($_REQUEST['erreurs']);
     }
 }
+
+
