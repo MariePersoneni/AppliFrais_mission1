@@ -107,13 +107,13 @@ function getLesMois()
 {
     $mois   = date('m');
     $annee  = date('Y');
-    for ($i = 0 ; $i <12 ; $i++) { 
-        $lesMois[] = array(            
+    for ($i = 0 ; $i <12 ; $i++) {
+        $lesMois[] = array(
             'mois'      => $annee . $mois,
             'numAnnee'  => $annee,
             'numMois'   => $mois
         );
-        $mois--; // D�cr�mente le mois
+        $mois--; // Décrémente le mois
         if (strlen($mois) == 1) {
             $mois = '0' . $mois;
         }
@@ -234,7 +234,7 @@ function valideInfosFrais($dateFrais, $libelle, $montant)
             if (estDateDepassee($dateFrais)) {
                 ajouterErreur(
                     "date d'enregistrement du frais dépassé, plus de 1 an"
-                );
+                    );
             }
         }
     }
@@ -275,6 +275,23 @@ function nbErreurs()
     } else {
         return count($_REQUEST['erreurs']);
     }
+}
+
+/**
+ * - Vérifie que le php.ini gere l'échappement des
+ * chaines récupérées par input
+ * - Utilise la fonction d'échappement si ce n'est
+ * pas le cas
+ * - Retourne la chaine échappée
+ * @param String $chaine : la chaine a échapper
+ * @return string $chaine : chaine échappée
+ */
+function filtrerChainePourBD($chaine)
+{
+    if (!get_magic_quotes_gpc()){
+        $chaine = addslashes($chaine);
+    }
+    return $chaine;
 }
 
 
