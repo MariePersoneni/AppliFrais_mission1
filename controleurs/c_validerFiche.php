@@ -23,8 +23,8 @@ switch ($action) {
         $visiteurASelectionner = $idVisiteur;
         $moisASelectionner = $mois;
         include 'vues/v_listeVisiteurs.php';
-        break;        
-    case 'voirFicheFrais': 
+        break;
+    case 'voirFicheFrais':
         $idVisiteur = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
         $mois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
         $visiteurASelectionner = $idVisiteur;
@@ -37,7 +37,7 @@ switch ($action) {
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
         if($lesInfosFicheFrais){
             $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
-        }    
+        }
         include 'vues/v_listeVisiteurs.php';
         include 'vues/v_validerFicheFrais.php';
         break;
@@ -61,17 +61,29 @@ switch ($action) {
             include 'vues/v_listeVisiteurs.php';
             include 'vues/v_validerFicheFrais.php';
         } else {
-            ajouterErreur('Les valeurs des frais doivent être numériques');
+            ajouterErreur('Les valeurs des frais doivent �tre numériques');
             include 'vues/v_erreurs.php';
             include 'vues/v_listeVisiteurs.php';
             include 'vues/v_validerFicheFrais.php';
         }
         break;
     case 'reporterFraisHorsForfait':
-        
-        include 'vues/v_modificationEffectuee.php';        
+        include 'vues/v_modificationEffectuee.php';
         break;
     case 'rejeterFraisHorsForfait':
-        //include 'vues/v_erreurs.php';
+        $idVisiteur = filter_input(INPUT_POST, 'idVisiteur', FILTER_SANITIZE_STRING);
+        $mois = filter_input(INPUT_POST, 'mois', FILTER_SANITIZE_STRING);
+        xdebug_break();
+        $visiteurASelectionner = $idVisiteur;
+        $moisASelectionner = $mois;
+        $idFrais = filter_input(INPUT_POST, 'idFrais', FILTER_SANITIZE_STRING);
+        $pdo->rejeterFraisHorsForfait($idFrais);
+        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
+        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
+        $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
+        include 'vues/v_modificationEffectuee.php';
+        include 'vues/v_listeVisiteurs.php';
+        include 'vues/v_validerFicheFrais.php';
         break;
 }
