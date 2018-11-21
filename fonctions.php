@@ -78,28 +78,28 @@ function getLesIdFraisForfait($pdo)
     return $lesLignes;
 }
 
-/**
- * Fonction qui retourne le mois suivant un mois passé en paramètre
- *
- * @param String $mois Contient le mois à utiliser
- *
- * @return String le mois d'après
- */
-function getMoisSuivant($mois)
-{
-    $numAnnee = substr($mois, 0, 4);
-    $numMois = substr($mois, 4, 2);
-    if ($numMois == '12') {
-        $numMois = '01';
-        $numAnnee++;
-    } else {
-        $numMois++;
-    }
-    if (strlen($numMois) == 1) {
-        $numMois = '0' . $numMois;
-    }
-    return $numAnnee . $numMois;
-}
+// /**
+//  * Fonction qui retourne le mois suivant un mois passé en paramètre
+//  *
+//  * @param String $mois Contient le mois à utiliser
+//  *
+//  * @return String le mois d'après
+//  */
+// function getMoisSuivant($mois)
+// {
+//     $numAnnee = substr($mois, 0, 4);
+//     $numMois = substr($mois, 4, 2);
+//     if ($numMois == '12') {
+//         $numMois = '01';
+//         $numAnnee++;
+//     } else {
+//         $numMois++;
+//     }
+//     if (strlen($numMois) == 1) {
+//         $numMois = '0' . $numMois;
+//     }
+//     return $numAnnee . $numMois;
+// }
 
 /**
  * Fonction qui retourne le mois précédent un mois passé en paramètre
