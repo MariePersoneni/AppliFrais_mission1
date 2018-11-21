@@ -74,19 +74,33 @@ if ($lesInfosFicheFrais) {
                 <tr>
 					<td> <?php echo $date ?></td>
 					<td> <?php echo $libelle ?></td>
-					<td><?php echo $montant ?></td>
+					<td><?php echo $montant ?></td>					
 					<td>
-    					<form 	method="post"
-    							action="index.php?uc=validerFiche&action=reporterFraisHorsForfait">
-        					<button class="btn btn-success" type="submit">Reporter</button>
-    					</form>
-    					<form 	method="post"
-    							action="index.php?uc=validerFiche&action=rejeterFraisHorsForfait">
-                			<input type="hidden" id="idFrais" name="idFrais"
-                			value="<?php echo $id ?>">
-                			<button class="btn btn-danger" type="submit">Rejeter</button>
-    					</form>
-					</td>
+    					<?php 
+        					// vérifie si le frais est déja refusé
+        					$debut_libelle = substr($libelle, 0,6);
+        					if ($debut_libelle <> 'REFUSE'){  
+    					?>
+        					<form 	method="post"
+        							action="index.php?uc=validerFiche&action=reporterFraisHorsForfait">
+            					<input type="hidden" id="idVisiteur" name="idVisiteur" 
+                    			value="<?php echo $visiteurASelectionner ?>">
+                    			<input type="hidden" id="mois" name="mois" 
+                    			value="<?php echo $moisASelectionner ?>">
+            					<button class="btn btn-success" type="submit">Reporter</button>
+        					</form>
+        					<form 	method="post"
+        							action="index.php?uc=validerFiche&action=rejeterFraisHorsForfait">
+                    			<input type="hidden" id="idFrais" name="idFrais"
+                    			value="<?php echo $id ?>">
+                    			<input type="hidden" id="idVisiteur" name="idVisiteur" 
+                    			value="<?php echo $visiteurASelectionner ?>">
+                    			<input type="hidden" id="mois" name="mois" 
+                    			value="<?php echo $moisASelectionner ?>">
+                    			<button class="btn btn-danger" type="submit">Rejeter</button>
+        					</form>
+    					<?php } ?>
+					</td>					
 				</tr>               
                 <?php
             }

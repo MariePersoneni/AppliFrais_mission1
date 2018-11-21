@@ -239,6 +239,7 @@ class PdoGsb
     /**
      * Met a jour la BDD en ajoutant la mention
      * "REFUSE" devant le libellé du frais rejeté
+     * et en passant le montant a 0
      * @param string $idFrais : ID de la ligne de frais
      */
     public function rejeterFraisHorsForfait($idFrais)
@@ -254,40 +255,17 @@ class PdoGsb
         $libelle = 'REFUSE ' . $resultat['libelle'];
         $libelle = filtrerChainePourBD($libelle);
         $requetePrepare = PdoGsb::$monPdo->prepare(
-            "UPDATE lignefraishorsforfait "
-            . "SET lignefraishorsforfait.libelle = {$libelle} "
-            . "WHERE lignefraishorsforfait.id = {$idFrais}"
+            'UPDATE lignefraishorsforfait '
+            . 'SET lignefraishorsforfait.libelle = :libelle '
+            . ', lignefraishorsforfait.montant = 0 '
+            . 'WHERE lignefraishorsforfait.id = :idFrais'
             );
+        $requetePrepare->bindParam(':idFrais', $idFrais, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':libelle', $libelle, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
     
     
-    
-    /**
-     * Modifie dans la base de données la ligne de frais
-     * hors forfait passée en param�tre et la modifie selon
-     * le motif : rejeter / reporter
-     *
-     * @param String $idFrais : n� id du frais hors forfait
-     * @param integer $motif : 0 = rejeter; 1 = reporter
-     * comportement selon le motif :
-     * 0 => reporte le frais sur la fiche du mois suivant
-     * 1 => ajout "REJETE" devant le libellé du frais
-     */
-    public function majFraisHorsForfait($idFrais, $motif)
-    {
-        if ($motif == 0) { // REJETER
-            
-        } else { // REPORTER
-            
-        }
-        $requetePrepare = PdoGsb::$monPdo->prepare(
-            'UPDATE lignefraishorsforfait '
-            );
-        
-        
-        
-    }
     
     
     /**

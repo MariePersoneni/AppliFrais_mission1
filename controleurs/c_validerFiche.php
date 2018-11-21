@@ -15,6 +15,14 @@
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 $lesVisiteurs = $pdo->getLesVisiteurs();
 $lesMois = getLesMois();
+$idVisiteur = filter_input(INPUT_POST, 'idVisiteur', FILTER_SANITIZE_STRING);
+$mois = filter_input(INPUT_POST, 'mois', FILTER_SANITIZE_STRING);
+$visiteurASelectionner = $idVisiteur;
+$moisASelectionner = $mois;
+$lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
+$lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+$lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
+$nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
 
 switch ($action) {
     case 'selectionnerVisiteur':
@@ -41,15 +49,7 @@ switch ($action) {
         include 'vues/v_listeVisiteurs.php';
         include 'vues/v_validerFicheFrais.php';
         break;
-    case 'validerMajFraisForfait':
-        $idVisiteur = filter_input(INPUT_POST, 'idVisiteur', FILTER_SANITIZE_STRING);
-        $mois = filter_input(INPUT_POST, 'mois', FILTER_SANITIZE_STRING);
-        $visiteurASelectionner = $idVisiteur;
-        $moisASelectionner = $mois;
-        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
-        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
-        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
-        $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
+    case 'validerMajFraisForfait':        
         $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
         if (lesQteFraisValides($lesFrais)) {
             $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais);
@@ -70,12 +70,7 @@ switch ($action) {
     case 'reporterFraisHorsForfait':
         include 'vues/v_modificationEffectuee.php';
         break;
-    case 'rejeterFraisHorsForfait':
-        $idVisiteur = filter_input(INPUT_POST, 'idVisiteur', FILTER_SANITIZE_STRING);
-        $mois = filter_input(INPUT_POST, 'mois', FILTER_SANITIZE_STRING);
-        xdebug_break();
-        $visiteurASelectionner = $idVisiteur;
-        $moisASelectionner = $mois;
+    case 'rejeterFraisHorsForfait':       
         $idFrais = filter_input(INPUT_POST, 'idFrais', FILTER_SANITIZE_STRING);
         $pdo->rejeterFraisHorsForfait($idFrais);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
