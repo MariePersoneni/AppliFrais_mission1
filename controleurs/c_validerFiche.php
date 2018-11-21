@@ -23,6 +23,7 @@ $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
 $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
 $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
+$idFrais = filter_input(INPUT_POST, 'idFrais', FILTER_SANITIZE_STRING);
 
 switch ($action) {
     case 'selectionnerVisiteur':
@@ -68,10 +69,16 @@ switch ($action) {
         }
         break;
     case 'reporterFraisHorsForfait':
+        $pdo->reporterFraisHorsForfait($idVisiteur,$mois,$idFrais);
+        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
+        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
+        $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
         include 'vues/v_modificationEffectuee.php';
+        include 'vues/v_listeVisiteurs.php';
+        include 'vues/v_validerFicheFrais.php';
         break;
     case 'rejeterFraisHorsForfait':       
-        $idFrais = filter_input(INPUT_POST, 'idFrais', FILTER_SANITIZE_STRING);
         $pdo->rejeterFraisHorsForfait($idFrais);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);

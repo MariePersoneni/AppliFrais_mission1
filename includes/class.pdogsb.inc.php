@@ -266,6 +266,54 @@ class PdoGsb
     }
     
     
+    /**
+     * Modifie la BDD pour reporter une ligne de frais hors
+     * forfait sur la fiche du mois suivant
+     * Création de la fiche du mois suivant si inexistante
+     * 
+     * @param string $idVisiteur : ID du visiteur
+     * @param string $mois : $mois de la fiche en cours
+     * @param integer $idFrais : ID de la ligne de frais hors
+     * forfait
+     */
+    public function reporterFraisHorsForfait($idVisiteur, $mois, $idFrais)
+    {        
+        // récup�re le mois suivant
+        $moisSuivant = getMoisSuivant($mois);
+        // vérifie qu'une fiche pour le mois suivant existe
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT fichefrais.idVisiteur '
+            . 'FROM fichefrais '
+            . 'WHERE fichefrais.idVisiteur = :idVisiteur '
+            . 'AND fichefrais.mois = :moisSuivant'
+            );
+        $requetePrepare->bindParam(':idVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':moisSuivant', $moisSuivant, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $resultat = $requetePrepare->fetch();
+        if (!is_array($resultat)){
+            // créé la fiche Mois+1            
+            $dateJ = date('Y-m-d');
+            $requetePrepare = PdoGsb::$monPdo->prepare(
+                'INSERT INTO fichefrais VALUES ( '
+                . ':idVisiteur, :moisSuivant, 0, 0, :dateJ, \'CR\' )'
+                );
+            $requetePrepare->bindParam(':idVisiteur', $idVisiteur, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':moisSuivant', $moisSuivant, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':dateJ', $dateJ, PDO::PARAM_STR);
+            $requetePrepare->execute();
+        }         
+        // Reporte la ligne au Mois+1
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'UPDATE lignefraishorsforfait '
+            . 'SET lignefraishorsforfait.mois = :moisSuivant '
+            . 'WHERE lignefraishorsforfait.id = :idFrais'
+            );
+        $requetePrepare->bindParam(':moisSuivant', $moisSuivant, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':idFrais', $idFrais, PDO::PARAM_INT);        
+        $requetePrepare->execute();
+        
+    }
     
     
     /**

@@ -77,7 +77,7 @@ if ($lesInfosFicheFrais) {
 					<td><?php echo $montant ?></td>					
 					<td>
     					<?php 
-        					// vérifie si le frais est déja refusé
+        					// vÃ©rifie si le frais est dÃ©ja refusÃ©
         					$debut_libelle = substr($libelle, 0,6);
         					if ($debut_libelle <> 'REFUSE'){  
     					?>
@@ -87,6 +87,8 @@ if ($lesInfosFicheFrais) {
                     			value="<?php echo $visiteurASelectionner ?>">
                     			<input type="hidden" id="mois" name="mois" 
                     			value="<?php echo $moisASelectionner ?>">
+                    			<input type="hidden" id="idFrais" name="idFrais"
+                				value="<?php echo $id ?>">
             					<button class="btn btn-success" type="submit">Reporter</button>
         					</form>
         					<form 	method="post"
