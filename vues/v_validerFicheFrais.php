@@ -24,10 +24,10 @@ if ($lesInfosFicheFrais) {
 			action="index.php?uc=validerFiche&action=validerMajFraisForfait"
 			role="form">
 			<fieldset>    
-			<input type="hidden" id="idVisiteur" name="idVisiteur" 
-			value="<?php echo $visiteurASelectionner ?>">
-			<input type="hidden" id="mois" name="mois" 
-			value="<?php echo $moisASelectionner ?>">
+    			<input type="hidden" id="idVisiteur" name="idVisiteur" 
+    			value="<?php echo $visiteurASelectionner ?>">
+    			<input type="hidden" id="mois" name="mois" 
+    			value="<?php echo $moisASelectionner ?>">
                 <?php
                 foreach ($lesFraisForfait as $unFrais) {
                     $idFrais = $unFrais['idfrais'];
@@ -39,7 +39,7 @@ if ($lesInfosFicheFrais) {
 						type="text" id="idFrais" name="lesFrais[<?php echo $idFrais ?>]"
 						size="10" maxlength="5" value="<?php echo $quantite ?>"
 						class="form-control">
-				</div>
+					</div>
                     <?php
                 }
                 ?>
@@ -65,12 +65,12 @@ if ($lesInfosFicheFrais) {
 			</thead>
 			<tbody>
             <?php
-            foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
+            foreach ($lesFraisHorsForfait as $unFraisHorsForfait) { 
                 $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
                 $date = $unFraisHorsForfait['date'];
                 $montant = $unFraisHorsForfait['montant'];
                 $id = $unFraisHorsForfait['id'];
-                ?>           
+                ?>                
                 <tr>
 					<td> <?php echo $date ?></td>
 					<td> <?php echo $libelle ?></td>
@@ -78,11 +78,13 @@ if ($lesInfosFicheFrais) {
 					<td>
     					<form 	method="post"
     							action="index.php?uc=validerFiche&action=reporterFraisHorsForfait">
-        					<button class="btn btn-success" type="button">Reporter</button>
+        					<button class="btn btn-success" type="submit">Reporter</button>
     					</form>
     					<form 	method="post"
     							action="index.php?uc=validerFiche&action=rejeterFraisHorsForfait">
-        					<button class="btn btn-danger" type="button">Rejeter</button>
+                			<input type="hidden" id="idFrais" name="idFrais"
+                			value="<?php echo $id ?>">
+                			<button class="btn btn-danger" type="submit">Rejeter</button>
     					</form>
 					</td>
 				</tr>               
