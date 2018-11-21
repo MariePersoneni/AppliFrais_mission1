@@ -52,7 +52,7 @@ case 'validerCreationFrais':
     }
     break;
 case 'supprimerFrais':
-    $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
+    $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_NUMBER_INT);
     $pdo->supprimerFraisHorsForfait($idFrais);
     break;
 }

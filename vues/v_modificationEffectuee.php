@@ -1,6 +1,6 @@
 <?php
 /**
- * Vue Modification effectuée sur fiche de frais
+ * Vue Modification effectuÃ©e sur fiche de frais
  *
  * PHP Version 7
  *
