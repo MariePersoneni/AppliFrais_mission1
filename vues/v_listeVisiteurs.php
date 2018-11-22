@@ -21,7 +21,7 @@
               method="post" role="form">
             <div class="form-group"> 
             	<label for="lstVisiteurs" accesskey="n">Choisir le visiteur : </label>         
-                <select id="lstVisiteurs" name="lstVisiteurs" class="form-control" onchange="MAJlesMoisDisponibles">
+                <select id="lstVisiteurs" name="lstVisiteurs" class="form-control">
                     <?php
                     foreach ($lesVisiteurs as $unVisiteur) {
                         $idVisiteur = $unVisiteur['id'];

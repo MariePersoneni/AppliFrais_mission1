@@ -19,12 +19,8 @@
 // infos sinon, on affiche "pas de fiche"
 if ($lesInfosFicheFrais) {
     ?>
-    <?php 
-    $etatFiche = $lesInfosFicheFrais['idEtat']; 
-    $libelleEtat = $lesInfosFicheFrais['libEtat'];
-    ?>
     <div class="row">	
-    	<h2>Etat de la fiche : <?php echo $libelleEtat ?></h2>
+    	<h2>Etat de la fiche : <?php echo $libEtat ?></h2>
     	<h3>Eléments forfaitisés</h3>
     	<div class="col-md-4">
     		<form method="post"

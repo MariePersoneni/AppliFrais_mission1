@@ -66,8 +66,36 @@
                 <td><?php echo $libelle ?></td>
                 <td><?php echo $montant ?></td>
             </tr>
-            <?php
+        <?php
         }
         ?>
     </table>
 </div>
+<?php 
+if ($_SESSION['profil'] == 'comptable') {
+    $fiche = $moisASelectionner.$visiteurASelectionner;
+    if ($etatFiche == 'VA'){
+?>
+        <div>
+        	<form 	method="post"
+        			action="index.php?uc=suivrePaiement&action=mettreEnPaiement">
+        		<input type="hidden" id="hdFiche" name="hdFiche" 
+        		value="<?php echo $fiche ?>">	
+        		<button class="btn btn-success" type="submit">Mettre en paiement</button>
+        	</form>
+        </div>
+    <?php 
+    } elseif ($etatFiche == 'MP') {
+    ?>
+        <div>
+        	<form 	method="post"
+        			action="index.php?uc=suivrePaiement&action=fichePayee">
+        		<input type="hidden" id="hdFiche" name="hdFiche" 
+        		value="<?php echo $fiche ?>">		
+        		<button class="btn btn-success" type="submit">Payée</button>
+        	</form>
+        </div>
+<?php 
+    }
+}
+?>

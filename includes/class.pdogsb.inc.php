@@ -533,7 +533,8 @@ class PdoGsb
         $requetePrepare = PdoGSB::$monPdo->prepare(
             'SELECT visiteur.id AS id, visiteur.nom AS nom, '
             . 'visiteur.prenom AS prenom '
-            . 'FROM visiteur'
+            . 'FROM visiteur '
+            . 'ORDER BY visiteur.nom ASC'
             );
         $requetePrepare->execute();
         $lesVisiteurs = array();
@@ -604,6 +605,11 @@ class PdoGsb
         $requetePrepare->execute();
     }
     
+    /**
+     * Fonction qui met  jour la base de donnée et qui
+     * cloture toutes les fiches de frais non cloturées
+     * du mois précédent
+     */
     public function clotureFichesMoisPrecedent()
     {
         $moisActuel = date('Ym');
@@ -617,4 +623,42 @@ class PdoGsb
         $requetePrepare->bindParam(':moisPrecedent', $moisPrecedent, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
+    
+    
+    public function getLesFichesValidees()
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT fichefrais.idvisiteur as idVisiteur, '
+            . 'fichefrais.mois as mois, '
+            . 'fichefrais.nbjustificatifs as nbJustificatifs, '
+            . 'fichefrais.montantvalide as montantValide, '
+            . 'visiteur.nom as nomVisiteur,  '
+            . 'visiteur.prenom as prenomVisiteur '
+            . 'FROM fichefrais INNER JOIN visiteur '
+            . 'ON fichefrais.idvisiteur = visiteur.id '
+            . 'WHERE fichefrais.idetat = \'VA\' '
+            . 'OR fichefrais.idetat = \'MP\' '
+            . 'ORDER BY fichefrais.mois DESC'
+            );
+        $requetePrepare->execute();
+        $lesFichesValidees = array();
+        while($laLigne = $requetePrepare->fetch()) {
+            $idVisiteur = $laLigne['idVisiteur'];
+            $nomVisiteur = $laLigne['nomVisiteur'];
+            $prenomVisiteur = $laLigne['prenomVisiteur'];
+            $mois = $laLigne['mois'];
+            $montantValide = $laLigne['montantValide'];
+            $nbJustificatifs = $laLigne['nbJustificatifs'];
+            $lesFichesValidees[] = array(
+                'idVisiteur'        => $idVisiteur,
+                'nomVisiteur'       => $nomVisiteur,
+                'prenomVisiteur'    => $prenomVisiteur,
+                'mois'              => $mois,
+                'montantValide'     => $montantValide,
+                'nbJustificatifs'   => $nbJustificatifs,
+            );
+        }
+        return $lesFichesValidees;
+    }    
+    
 }
