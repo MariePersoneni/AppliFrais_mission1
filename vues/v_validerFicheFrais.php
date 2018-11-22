@@ -115,8 +115,15 @@ if ($lesInfosFicheFrais) {
 			type="text" id="nbJustificatifs" size="10" maxlength="5"
 			value="<?php echo $nbJustificatifs ?>" class="form-control">
 	</div>
-	<button class="btn btn-success" type="submit">Valider</button>
-	<button class="btn btn-danger" type="reset">Réinitialiser</button>
+	<form 	method="post"
+			action="index.php?uc=validerFiche&action=validerFicheFrais">
+    	<input type="hidden" id="idVisiteur" name="idVisiteur" 
+		value="<?php echo $visiteurASelectionner ?>">
+		<input type="hidden" id="mois" name="mois" 
+		value="<?php echo $moisASelectionner ?>">
+    	<button class="btn btn-success" type="submit">Valider</button>
+    	<button class="btn btn-danger" type="reset">Réinitialiser</button>
+	</form>
 </div>
 <?php 
 } else {

@@ -88,4 +88,14 @@ switch ($action) {
         include 'vues/v_listeVisiteurs.php';
         include 'vues/v_validerFicheFrais.php';
         break;
+    case 'validerFicheFrais': 
+        $pdo->validerFicheFrais($idVisiteur, $mois);
+        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
+        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
+        $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
+        include 'vues/v_modificationEffectuee.php';
+        include 'vues/v_listeVisiteurs.php';
+        include 'vues/v_validerFicheFrais.php';
+        break;
 }
