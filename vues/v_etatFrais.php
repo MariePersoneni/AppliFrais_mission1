@@ -74,28 +74,32 @@
 <?php 
 if ($_SESSION['profil'] == 'comptable') {
     $fiche = $moisASelectionner.$visiteurASelectionner;
-    if ($etatFiche == 'VA'){
-?>
-        <div>
-        	<form 	method="post"
-        			action="index.php?uc=suivrePaiement&action=mettreEnPaiement">
-        		<input type="hidden" id="hdFiche" name="hdFiche" 
-        		value="<?php echo $fiche ?>">	
-        		<button class="btn btn-success" type="submit">Mettre en paiement</button>
-        	</form>
-        </div>
-    <?php 
-    } elseif ($etatFiche == 'MP') {
     ?>
-        <div>
-        	<form 	method="post"
-        			action="index.php?uc=suivrePaiement&action=fichePayee">
-        		<input type="hidden" id="hdFiche" name="hdFiche" 
-        		value="<?php echo $fiche ?>">		
-        		<button class="btn btn-success" type="submit">Payée</button>
-        	</form>
+    <div class="row">
+    	<div class="col-md-4">
+            <?php 
+            if ($etatFiche == 'VA'){
+            ?>       
+            	<form 	method="post"
+            			action="index.php?uc=suivrePaiement&action=MAJfiche&bouton=MP">
+            		<input type="hidden" id="hdFiche" name="hdFiche" 
+            		value="<?php echo $fiche ?>">	
+            		<button class="btn btn-success" type="submit">Mettre en paiement</button>
+            	</form>
+            <?php 
+            } elseif ($etatFiche == 'MP') {
+            ?>
+            	<form 	method="post"
+            			action="index.php?uc=suivrePaiement&action=MAJfiche&bouton=RB">
+            		<input type="hidden" id="hdFiche" name="hdFiche" 
+            		value="<?php echo $fiche ?>">		
+            		<button class="btn btn-success" type="submit">Payée</button>
+            	</form>
+        	<?php 
+            }
+            ?>
         </div>
-<?php 
-    }
+    </div>
+    <?php 
 }
 ?>

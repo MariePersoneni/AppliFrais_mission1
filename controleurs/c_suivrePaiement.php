@@ -21,17 +21,6 @@ $mois = substr($fiche, 0, 6);
 $visiteurASelectionner = $idVisiteur;
 $moisASelectionner = $mois;
 $ficheASelectionner = $fiche;
-$lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
-$lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
-$lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
-$numAnnee = substr($mois, 0, 4);
-$numMois = substr($mois, 4, 2);
-$etatFiche = $lesInfosFicheFrais['idEtat'];
-$libEtat = $lesInfosFicheFrais['libEtat'];
-$montantValide = $lesInfosFicheFrais['montantValide'];
-if($lesInfosFicheFrais){
-    $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
-}$nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
 
 switch ($action) {
     case 'selectionnerFiche':
@@ -63,16 +52,22 @@ switch ($action) {
         include 'vues/v_listeFicheValidee.php';
         include 'vues/v_etatFrais.php';
         break;
-    case 'mettreEnPaiement':
-        $pdo->majEtatFicheFrais($idVisiteur, $mois, 'MP');
+    case 'MAJfiche':
+        $bouton = filter_input(INPUT_GET, 'bouton', FILTER_SANITIZE_STRING);
+        $pdo->majEtatFicheFrais($idVisiteur, $mois, $bouton);
+        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
+        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
+        $numAnnee = substr($mois, 0, 4);
+        $numMois = substr($mois, 4, 2);
+        $etatFiche = $lesInfosFicheFrais['idEtat'];
+        $libEtat = $lesInfosFicheFrais['libEtat'];
+        $montantValide = $lesInfosFicheFrais['montantValide'];
+        if($lesInfosFicheFrais){
+            $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
+        }$nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
         include 'vues/v_modificationEffectuee.php';
         include 'vues/v_listeFicheValidee.php';
         include 'vues/v_etatFrais.php';        
-        break;
-    case 'fichePayee':
-        $pdo->majEtatFicheFrais($idVisiteur, $mois, 'RB');
-        include 'vues/v_modificationEffectuee.php';
-        include 'vues/v_listeFicheValidee.php';
-        include 'vues/v_etatFrais.php';
         break;
 }

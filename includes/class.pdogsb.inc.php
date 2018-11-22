@@ -636,8 +636,8 @@ class PdoGsb
             . 'visiteur.prenom as prenomVisiteur '
             . 'FROM fichefrais INNER JOIN visiteur '
             . 'ON fichefrais.idvisiteur = visiteur.id '
-            . 'WHERE fichefrais.idetat = \'VA\' '
-            . 'OR fichefrais.idetat = \'MP\' '
+            . 'WHERE fichefrais.idetat <> \'CL\' '
+            . 'AND fichefrais.idetat <> \'CR\' '
             . 'ORDER BY fichefrais.mois DESC'
             );
         $requetePrepare->execute();

@@ -38,10 +38,11 @@ if ($lesInfosFicheFrais) {
                         $quantite = $unFrais['quantite'];
                         ?>
                         <div class="form-group">
-    					<label for="idFrais"><?php echo $libelle ?></label> <input
-    						type="text" id="idFrais" name="lesFrais[<?php echo $idFrais ?>]"
-    						size="10" maxlength="5" value="<?php echo $quantite ?>"
-    						class="form-control">
+        					<label for="idFrais"><?php echo $libelle ?></label> 
+        					<input
+        						type="text" id="idFrais" name="lesFrais[<?php echo $idFrais ?>]"
+        						size="10" maxlength="5" value="<?php echo $quantite ?>"
+        						class="form-control">
     					</div>
                     <?php
                     }
@@ -83,10 +84,10 @@ if ($lesInfosFicheFrais) {
     					<td><?php echo $libelle ?></td>
     					<td><?php echo $montant ?></td>					
     					<td><?php 
-            					// vérifie si le frais est déja refusé
-            					$debut_libelle = substr($libelle, 0,6);
-            					if ($debut_libelle <> 'REFUSE' && $etatFiche == 'CL'){  
-        					?>
+					       // vérifie si le frais est déja refusé
+        					$debut_libelle = substr($libelle, 0,6);
+        					if ($debut_libelle <> 'REFUSE' && $etatFiche == 'CL'){  
+    					   ?>
             					<form 	method="post"
             							action="index.php?uc=validerFiche&action=reporterFraisHorsForfait">
                 					<input type="hidden" id="idVisiteur" name="idVisiteur" 
@@ -113,33 +114,34 @@ if ($lesInfosFicheFrais) {
     					</td>					
     				</tr>               
                     <?php
-                }
-                ?>             	
+                    }
+                    ?>             	
                 </tbody>
     		</table>
     	</div>
-    	<div class="form-group">
-    		<label for="nbJustificatifs">Nombre de justificatifs : </label> <input
-    			type="text" id="nbJustificatifs" size="10" maxlength="5"
-    			value="<?php echo $nbJustificatifs ?>" class="form-control">
-    	</div>
-    	<form 	method="post"
-    			action="index.php?uc=validerFiche&action=validerFicheFrais">
-        	<input type="hidden" id="idVisiteur" name="idVisiteur" 
-    		value="<?php echo $visiteurASelectionner ?>">
-    		<input type="hidden" id="mois" name="mois" 
-    		value="<?php echo $moisASelectionner ?>">
-    		<?php 
-            if ($etatFiche == 'CL'){
-    		?>
-        	<button class="btn btn-success" type="submit">Valider</button>
-        	<button class="btn btn-danger" type="reset">Réinitialiser</button>
-        	<?php 
-            }
-            ?>
-    	</form>
-    </div>
-    <?php 
+	</div>
+	<div class="form-group">
+		<label for="nbJustificatifs">Nombre de justificatifs : </label> 
+		<input
+			type="text" id="nbJustificatifs" size="10" maxlength="5"
+			value="<?php echo $nbJustificatifs ?>" class="form-control">
+	</div>
+	<form 	method="post"
+			action="index.php?uc=validerFiche&action=validerFicheFrais">
+    	<input type="hidden" id="idVisiteur" name="idVisiteur" 
+		value="<?php echo $visiteurASelectionner ?>">
+		<input type="hidden" id="mois" name="mois" 
+		value="<?php echo $moisASelectionner ?>">
+		<?php 
+        if ($etatFiche == 'CL'){
+		?>
+    	<button class="btn btn-success" type="submit">Valider</button>
+    	<button class="btn btn-danger" type="reset">Réinitialiser</button>
+    	<?php 
+        }
+        ?>
+	</form>
+<?php 
 } else {
     ?>
     <h3>Pas de fiche de frais pour ce visiteur pour ce mois.</h3>
