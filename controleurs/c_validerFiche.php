@@ -12,6 +12,10 @@
  * @version   GIT: <0>
  * @link      http://www.siteEntreprise
  */
+
+//Script qui cloture toutes les fiche du mois dernier
+$pdo->clotureFichesMoisPrecedent();
+
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 $lesVisiteurs = $pdo->getLesVisiteurs();
 $lesMois = getLesMois();

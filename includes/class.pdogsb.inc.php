@@ -603,4 +603,18 @@ class PdoGsb
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
+    
+    public function clotureFichesMoisPrecedent()
+    {
+        $moisActuel = date('Ym');
+        $moisPrecedent = getMoisPrecedent($moisActuel);        
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'UPDATE fichefrais '
+            . 'SET idetat = \'CL\', datemodif = now() '
+            . 'WHERE mois = :moisPrecedent '
+            . 'AND idetat = \'CR\''
+            );
+        $requetePrepare->bindParam(':moisPrecedent', $moisPrecedent, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
 }
