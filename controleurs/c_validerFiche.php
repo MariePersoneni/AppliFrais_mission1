@@ -89,7 +89,7 @@ switch ($action) {
         include 'vues/v_validerFicheFrais.php';
         break;
     case 'validerFicheFrais': 
-        $pdo->validerFicheFrais($idVisiteur, $mois);
+        $pdo->majEtatFicheFrais($idVisiteur, $mois, 'VA');
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);

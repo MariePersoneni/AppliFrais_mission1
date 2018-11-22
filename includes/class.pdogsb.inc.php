@@ -319,23 +319,7 @@ class PdoGsb
         $requetePrepare->execute();
         
     }
-    
-    public function validerFicheFrais($idVisiteur, $mois)
-    {
-        $dateJ = date('Y-m-d');
-        $requetePrepare = PdoGsb::$monPdo->prepare(
-            'UPDATE fichefrais '
-            . 'SET fichefrais.idetat = \'VA\' '
-            . ', fichefrais.datemodif =  :dateJ '
-            . 'WHERE fichefrais.idvisiteur = :idVisiteur '
-            . 'AND fichefrais.mois = :mois'
-            );
-        $requetePrepare->bindParam(':mois', $mois, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':dateJ', $dateJ, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':idVisiteur', $idVisiteur, PDO::PARAM_STR);
-        $requetePrepare->execute();
-    }
-    
+        
     
     /**
      * Met à jour le nombre de justificatifs de la table ficheFrais
