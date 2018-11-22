@@ -47,6 +47,8 @@ switch ($action) {
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
         $numAnnee = substr($mois, 0, 4);
         $numMois = substr($mois, 4, 2);
+        $etatFiche = $lesInfosFicheFrais['idEtat']; 
+        $libEtat = $lesInfosFicheFrais['libEtat'];
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
         if($lesInfosFicheFrais){
             $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
