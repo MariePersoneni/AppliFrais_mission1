@@ -253,6 +253,11 @@ class PdoGsb
         $requetePrepare->execute();
         $resultat = $requetePrepare->fetch();
         $libelle = 'REFUSE ' . $resultat['libelle'];
+        // vérifie que le nouveau libellé ne dépasse pas la taille max de 100c
+        $longueurLibelle = strlen($libelle);
+        if ($longueurLibelle > 100){
+            $libelle = substr($libelle, 0, 100);
+        }
         $libelle = filtrerChainePourBD($libelle);
         $requetePrepare = PdoGsb::$monPdo->prepare(
             'UPDATE lignefraishorsforfait '
