@@ -27,6 +27,8 @@ $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
 $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
 $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
+$etatFiche = $lesInfosFicheFrais['idEtat'];
+$libEtat = $lesInfosFicheFrais['libEtat'];
 $idFrais = filter_input(INPUT_POST, 'idFrais', FILTER_SANITIZE_STRING);
 
 switch ($action) {

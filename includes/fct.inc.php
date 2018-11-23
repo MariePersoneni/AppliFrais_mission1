@@ -100,7 +100,7 @@ function getMois($date)
 
 /**
  * Retourne un tableau associatif qui contient les mois
- * d'un an en arrière depuis la date du jour
+ * d'un an en arriÃ¨re depuis la date du jour
  * @return string[]|number[]
  */
 function getLesMois()

@@ -14,28 +14,6 @@
  * @link      http://www.php.net/manual/fr/book.pdo.php PHP Data Objects sur php.net
  */
 
-/**
- * Classe d'accès aux données.
- *
- * Utilise les services de la classe PDO
- * pour l'application GSB
- * Les attributs sont tous statiques,
- * les 4 premiers pour la connexion
- * $monPdo de type PDO
- * $monPdoGsb qui contiendra l'unique instance de la classe
- *
- * PHP Version 7
- *
- * @category  PPE
- * @package   GSB
- * @author    Cheri Bibi - Réseau CERTA <contact@reseaucerta.org>
- * @author    José GIL <jgil@ac-nice.fr>
- * @copyright 2017 Réseau CERTA
- * @license   Réseau CERTA
- * @version   Release: 1.0
- * @link      http://www.php.net/manual/fr/book.pdo.php PHP Data Objects sur php.net
- */
-
 class PdoGsb
 {
     private static $serveur = 'mysql:host=localhost';
@@ -283,7 +261,7 @@ class PdoGsb
      */
     public function reporterFraisHorsForfait($idVisiteur, $mois, $idFrais)
     {        
-        // récup�re le mois suivant
+        // récupère le mois suivant
         $moisSuivant = getMoisSuivant($mois);
         // vérifie qu'une fiche pour le mois suivant existe
         $requetePrepare = PdoGsb::$monPdo->prepare(
@@ -524,7 +502,7 @@ class PdoGsb
     
     
     /**
-     * Récup�re tous les visiteurs de la base de données
+     * Récupère tous les visiteurs de la base de données
      * @return un tableau associatif qui contien l'id, le nom et prénom
      * de chaque visiteur
      */
@@ -625,6 +603,15 @@ class PdoGsb
     }
     
     
+    /** 
+     * Récupère et retourne toutes les fiches qui 
+     * ont été validées et qui sont donc a l'état :
+     * - validé - VA
+     * - mise en paiement - MP
+     * - remboursee - RB
+     * 
+     * @return tableau associatif des fiches de frais
+     */
     public function getLesFichesValidees()
     {
         $requetePrepare = PdoGsb::$monPdo->prepare(
