@@ -584,6 +584,45 @@ class PdoGsb
     }
     
     /**
+     * Procédure qui met a jour dans la base de données le
+     * montant validé d'une fiche de frais
+     * @param  $idVisiteur  = id du visiteur
+     * @param  $mois        = mois de la fiche de frais
+     * @param  $montant     = montant total validé
+     */
+    public function majMontantFicheFrais($idVisiteur, $mois, $montant)
+    {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'UPDATE ficheFrais '
+            . 'SET montantvalide = :montant, datemodif = now() '
+            . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+            . 'AND fichefrais.mois = :unMois'
+            );
+        $requetePrepare->bindParam(':montant', $montant);
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    
+    /**
+     * Fonction qui retourne le montant correspondant
+     * au frais forfait passé en paramètre
+     * @param $idFrais = id du frais forfait
+     * @return chaine qui contient le montant correspondant
+     */
+    public function getMontantFraisForfait($idFrais)
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT montant as mnt FROM fraisforfait '
+            . 'WHERE id = :idFrais'
+            );
+        $requetePrepare->bindParam(':idFrais', $idFrais, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch();
+        return $laLigne['mnt'];
+    }
+    
+    /**
      * Fonction qui met  jour la base de donnée et qui
      * cloture toutes les fiches de frais non cloturées
      * du mois précédent

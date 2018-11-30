@@ -82,7 +82,7 @@ switch ($action) {
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
-        include 'vues/v_modificationEffectuee.php';
+                include 'vues/v_modificationEffectuee.php';
         include 'vues/v_listeVisiteurs.php';
         include 'vues/v_validerFicheFrais.php';
         break;
@@ -97,11 +97,32 @@ switch ($action) {
         include 'vues/v_validerFicheFrais.php';
         break;
     case 'validerFicheFrais': 
-        $pdo->majEtatFicheFrais($idVisiteur, $mois, 'VA');
+        //$pdo->majEtatFicheFrais($idVisiteur, $mois, 'VA');
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
+        // calcul du montant total validé
+        // calcul des frais forfait
+        $montantValide = 0;
+        foreach ($lesFraisForfait as $unFraisForfait){
+            $qteFrais = intval($unFraisForfait['quantite']);
+            if ($qteFrais <> 0){
+                $idFrais = $unFraisForfait['idfrais'];
+                $montantFrais = $pdo->getMontantFraisForfait($idFrais);
+                $montantValide += intval($montantFrais) * $qteFrais;
+            }
+        }
+        // calcul des frais hors forfait
+        foreach ($lesFraisHorsForfait as $unFraisHorsForfait){
+            $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
+            $debut_libelle = substr($libelle, 0,6);
+            if ($debut_libelle <> 'REFUSE'){
+                $montantFrais = intval($unFraisHorsForfait['montant']);
+                $montantValide += $montantFrais;
+            }
+        }
+        $pdo->majMontantFicheFrais($idVisiteur, $mois, $montantValide);
         include 'vues/v_modificationEffectuee.php';
         include 'vues/v_listeVisiteurs.php';
         include 'vues/v_validerFicheFrais.php';
