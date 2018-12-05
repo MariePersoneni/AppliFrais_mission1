@@ -177,7 +177,7 @@ class PdoGsb
      * @return l'id, le libelle et la quantité sous la forme d'un tableau
      * associatif
      */
-    public function getLesFraisKilometriques($idVisiteur, $mois)
+    public function getLesFraisKm($idVisiteur, $mois)
     {
         $requetePrepare = PdoGSB::$monPdo->prepare(
             'SELECT fraiskilometrique.id as idfraiskm, '
@@ -817,7 +817,7 @@ class PdoGsb
                 //récup�re les lignes de frais km
                 $levisiteur = $uneFiche['idVisiteur'];
                 $lemois = $uneFiche['mois'];
-                $lesFraisKm = $this->getLesFraisKilometriques($levisiteur, $lemois);
+                $lesFraisKm = $this->getLesFraisKm($levisiteur, $lemois);
                 // parcours des ID de frais km
                 foreach ($lesIdFraisKm as $unIdFraisKm){
                     $idFraisKm = $unIdFraisKm['idfraiskm'];
