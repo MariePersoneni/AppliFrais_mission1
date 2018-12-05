@@ -707,11 +707,11 @@ class PdoGsb
      * @param $idFrais = id du frais forfait
      * @return chaine qui contient le montant correspondant
      */
-    public function getMontantFraisForfait($idFrais)
+    public function getMontantFraisForfait($idFrais, $table)
     {
         $requetePrepare = PdoGsb::$monPdo->prepare(
-            'SELECT montant as mnt FROM fraisforfait '
-            . 'WHERE id = :idFrais'
+            "SELECT montant as mnt FROM {$table} "
+            . "WHERE id = :idFrais"
             );
         $requetePrepare->bindParam(':idFrais', $idFrais, PDO::PARAM_STR);
         $requetePrepare->execute();
@@ -785,15 +785,17 @@ class PdoGsb
     }
     
     /**
-     * Fonction utilisée une seule fois suite au changement de 
-     * structure de la base de données pour la gestion des 
-     * frais kilométrique.
+     * Fonction utilisÃ©e une seule fois suite au changement de 
+     * structure de la base de donnÃ©es pour la gestion des 
+     * frais kilomÃ©trique.
      * La fonction parcours les fiches de frais et insert
-     * des lignes de frais kilométrique la ou il en manque.
+     * des lignes de frais kilomÃ©trique la ou il en manque.
+     * Peut Ãªtre rÃ©utilisÃ©e si ajout de frais kilomÃ©trique dans 
+     * la base de donnÃ©es.
      */
     public function insertFraisKmPrecedentesFiches()
     {
-        //récupération de toutes les fiches
+        //rÃ©cupÃ©ration de toutes les fiches
         $requetePrepare = PdoGsb::$monPdo->prepare(
             'SELECT idvisiteur as idVisiteur, '
             . 'mois as mois FROM fichefrais'
@@ -808,11 +810,11 @@ class PdoGsb
                 'mois'              => $mois,
             );
         }
-        // récupération des id frais km
+        // rÃ©cupÃ©ration des id frais km
         $lesIdFraisKm = $this->getLesIdFraisKm(); 
         // parcours des fiches
             foreach ($lesFiches as $uneFiche){
-                //récupère les lignes de frais km
+                //rÃ©cupère les lignes de frais km
                 $levisiteur = $uneFiche['idVisiteur'];
                 $lemois = $uneFiche['mois'];
                 $lesFraisKm = $this->getLesFraisKilometriques($levisiteur, $lemois);
@@ -838,6 +840,5 @@ class PdoGsb
                     }
                 }
             }
-    }
-    
+    }    
 }

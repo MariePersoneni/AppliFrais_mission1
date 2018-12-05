@@ -62,8 +62,10 @@ switch ($action) {
         break;
     case 'validerMajFraisForfait':        
         $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
-        if (lesQteFraisValides($lesFrais)) {
+        $lesFraisKm = filter_input(INPUT_POST, 'lesFraisKm', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+        if (lesQteFraisValides($lesFrais) && lesQteFraisValides($lesFraisKm)) {
             $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais);
+            $pdo->majFraisKm($idVisiteur, $mois, $lesFraisKm);
             $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
             $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
             $lesFraisKm = $pdo->getLesFraisKilometriques($idVisiteur, $mois);
@@ -102,7 +104,7 @@ switch ($action) {
         include 'vues/v_validerFicheFrais.php';
         break;
     case 'validerFicheFrais': 
-        //$pdo->majEtatFicheFrais($idVisiteur, $mois, 'VA');
+        $pdo->majEtatFicheFrais($idVisiteur, $mois, 'VA');
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
         $lesFraisKm = $pdo->getLesFraisKilometriques($idVisiteur, $mois);
@@ -115,8 +117,17 @@ switch ($action) {
             $qteFrais = intval($unFraisForfait['quantite']);
             if ($qteFrais <> 0){
                 $idFrais = $unFraisForfait['idfrais'];
-                $montantFrais = $pdo->getMontantFraisForfait($idFrais);
+                $montantFrais = $pdo->getMontantFraisForfait($idFrais, 'fraisforfait');
                 $montantValide += intval($montantFrais) * $qteFrais;
+            }
+        }
+        // calcul des frais kilométriques
+        foreach ($lesFraisKm as $unFraisKm){
+            $qteFrais = intval($unFraisKm['quantite']);
+            if ($qteFrais <> 0){
+                $idFraisKm = $unFraisKm['idfraiskm'];
+                $montantFrais = $pdo->getMontantFraisForfait($idFraisKm, 'fraiskilometrique');
+                $montantValide += floatval($montantFrais) * $qteFrais;
             }
         }
         // calcul des frais hors forfait

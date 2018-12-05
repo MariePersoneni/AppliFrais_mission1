@@ -39,6 +39,7 @@ switch ($action) {
         $ficheASelectionner = $fiche;
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+        $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $mois);
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
         $numAnnee = substr($mois, 0, 4);
         $numMois = substr($mois, 4, 2);
@@ -57,6 +58,7 @@ switch ($action) {
         $pdo->majEtatFicheFrais($idVisiteur, $mois, $bouton);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+        $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $mois);
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
         $numAnnee = substr($mois, 0, 4);
         $numMois = substr($mois, 4, 2);
