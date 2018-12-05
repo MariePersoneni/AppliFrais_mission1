@@ -25,6 +25,7 @@ $visiteurASelectionner = $idVisiteur;
 $moisASelectionner = $mois;
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+$lesFraisKm = $pdo->getLesFraisKilometriques($idVisiteur, $mois);
 $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
 $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
 $etatFiche = $lesInfosFicheFrais['idEtat'];
@@ -46,6 +47,7 @@ switch ($action) {
         $moisASelectionner = $mois;
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+        $lesFraisKm = $pdo->getLesFraisKilometriques($idVisiteur, $mois);
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
         $numAnnee = substr($mois, 0, 4);
         $numMois = substr($mois, 4, 2);
@@ -64,6 +66,7 @@ switch ($action) {
             $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais);
             $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
             $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+            $lesFraisKm = $pdo->getLesFraisKilometriques($idVisiteur, $mois);
             $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
             $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
             include 'vues/v_modificationEffectuee.php';
@@ -80,6 +83,7 @@ switch ($action) {
         $pdo->reporterFraisHorsForfait($idVisiteur,$mois,$idFrais);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+        $lesFraisKm = $pdo->getLesFraisKilometriques($idVisiteur, $mois);
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
                 include 'vues/v_modificationEffectuee.php';
@@ -90,6 +94,7 @@ switch ($action) {
         $pdo->rejeterFraisHorsForfait($idFrais);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+        $lesFraisKm = $pdo->getLesFraisKilometriques($idVisiteur, $mois);
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
         include 'vues/v_modificationEffectuee.php';
@@ -100,6 +105,7 @@ switch ($action) {
         //$pdo->majEtatFicheFrais($idVisiteur, $mois, 'VA');
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+        $lesFraisKm = $pdo->getLesFraisKilometriques($idVisiteur, $mois);
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
         // calcul du montant total validé

@@ -39,33 +39,7 @@ if ($lesInfosFicheFrais) {
                         ?>
                         <div class="form-group">
         					<label for="idFrais"><?php echo $libelle ?></label> 
-        					
-        					<?php 
-                            if ($idFrais == 'KM') {
-                            ?>
-                            <br>
-                            <label for="lstTypeehicule" class="sous-label">Puissance véhicule</label>
-                            <select type="text" id="lstTypeVehicule" name="lstTypeVehicule"
-                                   class="form-control" onchange="calculMontantKM()"> 
-                                   <option selected value = "0.52">4CV Diesel</option>
-                                   <option value = "0.58">5/6CV Diesel</option>
-                                   <option value = "0.62">4CV Essence</option>
-                                   <option value = "0.67">5/6CV Essence</option>
-                            </select>
-                            <label for="qteKM" class="sous-label">Kilomètres parcourus</label>
-                            <input type="text" id="qteKM" name="qteKM"
-                                   size="10" maxlength="5" 
-                                   value="<?php echo $quantite ?>" 
-                                   class="form-control" onchange="calculMontantKM()">
-                           <label for="montantKM" class="sous-label">Montant pris en charge</label>
-                           <input type="text" id="montantKM" name="montantKM"
-                                   size="10" maxlength="5"  
-                                   class="form-control">
-                           
-    						<?php 
-                            } else {
-                           ?>
-                           <input type="text" id="idFrais" 
+        					<input type="text" id="idFrais" 
                                    name="lesFrais[<?php echo $idFrais ?>]"
                                    size="10" 
                                    value="<?php echo $quantite ?>" 
@@ -74,12 +48,42 @@ if ($lesInfosFicheFrais) {
                             } 
                             ?>
     					</div>
+    					<div class="row">
+                    		<div class="panel panel-info">
+                        		<div class="panel-heading">Frais kilométriques</div>
+                        		<table class="table table-bordered table-responsive">
+                            		<thead>
+                                		<tr>
+                                        <th class="date">Type de véhicule</th>
+                                        <th class="libelle">nombre de kilomètres</th>
+                                        </tr>
+                                    </thead>  
+                                    <tbody>
+                                        <?php
+                                        foreach ($lesFraisKm as $unFraisKm) {
+                                            $libelle = htmlspecialchars($unFraisKm['libelle']);
+                                            $quantite = $unFraisKm['quantite'];
+                                            $idFraisKm = $unFraisKm['idfraiskm']; ?>           
+                                            <tr>
+                                                <td> <?php echo $libelle ?></td>
+                                                <td> <input type="text" id="idFraisKm" 
+                                                            name="lesFraisKm[<?php echo $idFraisKm ?>]"
+                                                            size="10" 
+                                                            value="<?php echo $quantite ?>" 
+                                                            class="form-control"> </td>                                    
+                                            </tr>                                
+                                        <?php
+                                        }
+                                        ?>
+                                    </tbody>  
+                        		</table>
+                    		</div>
+                		</div>
                     <?php
-                    }
                     if ($etatFiche == 'CL') {
                     ?>
                         <button class="btn btn-success" type="submit">Corriger</button>
-        				<button class="btn btn-danger" type="reset">Réinitialiser</button>
+        				<button class="btn btn-danger" type="reset">Réinitialiser</button>    				
     				<?php 
                     } 
                     ?>
@@ -116,7 +120,7 @@ if ($lesInfosFicheFrais) {
     					<td><?php 
 					       // vérifie si le frais est déja refusé
         					$debut_libelle = substr($libelle, 0,6);
-        					if ($debut_libelle <> 'REFUSE' && $etatFiche == 'CL'){  
+        					if ($debut_libelle <> 'REFUSE' && $etatFiche == 'CL'){
     					   ?>
             					<form 	method="post"
             							action="index.php?uc=validerFiche&action=reporterFraisHorsForfait">
@@ -177,15 +181,4 @@ if ($lesInfosFicheFrais) {
     <h3>Pas de fiche de frais pour ce visiteur pour ce mois.</h3>
     <?php 
 }
-
-print("<SCRIPT language=javascript>");
-print(
-    "function calculMontantKM() {
-        var coeffVoiture = document.getElementById(\"lstTypeVehicule\").value;
-        var nbKM = document.getElementById(\"qteKM\").value;
-        var montantKM = Math.round(coeffVoiture * nbKM);
-        document.getElementById(\"montantKM\").value = montantKM + \" euros\";
-    }"
-    );
-print("</script>");
 ?>
