@@ -48,6 +48,26 @@
     </table>
 </div>
 <div class="panel panel-info">
+    <div class="panel-heading">Frais kilométriques</div>
+    <table class="table table-bordered table-responsive">
+        <tr>
+            <th class="libelle">Type de véhicule</th>
+            <th class='montant'>Nombre de kilomètres</th>                
+        </tr>
+        <?php
+        foreach ($lesFraisKm as $unFraisKm) {
+            $libelle = htmlspecialchars($unFraisKm['libelle']);
+            $quantite = $unFraisKm['quantite']; ?>
+            <tr>
+                <td><?php echo $libelle ?></td>
+                <td><?php echo $quantite ?></td>
+            </tr>
+        <?php
+        }
+        ?>
+    </table>
+</div>
+<div class="panel panel-info">
     <div class="panel-heading">Descriptif des éléments hors forfait - 
         <?php echo $nbJustificatifs ?> justificatifs reçus</div>
     <table class="table table-bordered table-responsive">

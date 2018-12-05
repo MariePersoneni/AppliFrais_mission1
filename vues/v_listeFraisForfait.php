@@ -48,7 +48,7 @@
                             <thead>
                                 <tr>
                                     <th class="date">Type de véhicule</th>
-                                    <th class="libelle">nombre de KM</th>
+                                    <th class="libelle">nombre de kilomètres</th>
                                 </tr>
                             </thead>  
                             <tbody>
