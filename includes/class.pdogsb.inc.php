@@ -168,6 +168,35 @@ class PdoGsb
     }
     
     /**
+     * Retourne sous forme d'un tableau associatif toutes les lignes de frais
+     * kilométriques concernées par les deux arguments
+     *
+     * @param String $idVisiteur ID du visiteur
+     * @param String $mois       Mois sous la forme aaaamm
+     *
+     * @return l'id, le libelle et la quantité sous la forme d'un tableau
+     * associatif
+     */
+    public function getLesFraisKilometriques($idVisiteur, $mois)
+    {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'SELECT fraiskilometrique.id as idfraiskm, '
+            . 'fraiskilometrique.libelle as libelle, '
+            . 'lignefraisforfait.quantite as quantite '
+            . 'FROM lignefraisforfait '
+            . 'INNER JOIN fraiskilometrique '
+            . 'ON fraiskilometrique.id = lignefraisforfait.idfraiskm '
+            . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
+            . 'AND lignefraisforfait.mois = :unMois '
+            . 'ORDER BY lignefraisforfait.idfraiskm'
+            );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+    }
+    
+    /**
      * Retourne tous les id de la table FraisForfait
      *
      * @return un tableau associatif
@@ -177,6 +206,22 @@ class PdoGsb
         $requetePrepare = PdoGsb::$monPdo->prepare(
             'SELECT fraisforfait.id as idfrais '
             . 'FROM fraisforfait ORDER BY fraisforfait.id'
+            );
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+    }
+    
+    /**
+     * Retourne tous les id de la table Fraiskilometrique
+     * 
+     * @return un tableau associatif
+     */
+    public function getLesIdFraisKm()
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT fraiskilometrique.id as idfraiskm '
+            . 'FROM fraiskilometrique '
+            . 'ORDER BY fraiskilometrique.id'
             );
         $requetePrepare->execute();
         return $requetePrepare->fetchAll();
@@ -210,6 +255,38 @@ class PdoGsb
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
             $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
             $requetePrepare->bindParam(':idFrais', $unIdFrais, PDO::PARAM_STR);
+            $requetePrepare->execute();
+        }
+    }
+    
+    /**
+     * Met à jour la table ligneFraisForfait (frais kilometriques)
+     * Met à jour la table ligneFraisForfait pour un visiteur et
+     * un mois donné en enregistrant les nouveaux montants
+     *
+     * @param String $idVisiteur   ID du visiteur
+     * @param String $mois         Mois sous la forme aaaamm
+     * @param Array  $lesFraisKm   tableau associatif de clé idFraisKm
+     *                             et de valeur la quantité pour ce frais
+     *
+     * @return null
+     */
+    public function majFraisKm($idVisiteur, $mois, $lesFraisKm)
+    {
+        $lesCles = array_keys($lesFraisKm);
+        foreach ($lesCles as $unIdFraisKm) {
+            $qte = $lesFraisKm[$unIdFraisKm];
+            $requetePrepare = PdoGSB::$monPdo->prepare(
+                'UPDATE lignefraisforfait '
+                . 'SET lignefraisforfait.quantite = :uneQte '
+                . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
+                . 'AND lignefraisforfait.mois = :unMois '
+                . 'AND lignefraisforfait.idfraiskm = :idFraisKm'
+                );
+            $requetePrepare->bindParam(':uneQte', $qte, PDO::PARAM_INT);
+            $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':idFraisKm', $unIdFraisKm, PDO::PARAM_STR);
             $requetePrepare->execute();
         }
     }
@@ -388,11 +465,13 @@ class PdoGsb
      */
     public function creeNouvellesLignesFrais($idVisiteur, $mois)
     {
+        // cloture de la fiche de frais précédente
         $dernierMois = $this->dernierMoisSaisi($idVisiteur);
         $laDerniereFiche = $this->getLesInfosFicheFrais($idVisiteur, $dernierMois);
         if ($laDerniereFiche['idEtat'] == 'CR') {
             $this->majEtatFicheFrais($idVisiteur, $dernierMois, 'CL');
         }
+        // création d'une nouvelle fiche pour le mois en cours
         $requetePrepare = PdoGsb::$monPdo->prepare(
             'INSERT INTO fichefrais (idvisiteur,mois,nbjustificatifs,'
             . 'montantvalide,datemodif,idetat) '
@@ -401,6 +480,7 @@ class PdoGsb
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
+        // création des lignes de frais forfait
         $lesIdFrais = $this->getLesIdFrais();
         foreach ($lesIdFrais as $unIdFrais) {
             $requetePrepare = PdoGsb::$monPdo->prepare(
@@ -415,7 +495,24 @@ class PdoGsb
                 $unIdFrais['idfrais'],
                 PDO::PARAM_STR
                 );
-            $requetePrepare->execute();
+            $requetePrepare->execute();        
+        }
+        // création des lignes de frais kilométrique
+        $lesIdFraisKm = $this->getLesIdFraisKm();
+        foreach ($lesIdFraisKm as $unIdFraisKm){
+            $requetePrepare = PdoGsb::$monPdo->prepare(
+                'INSERT INTO lignefraisforfait (idvisiteur,mois,'
+                . 'idfraiskm,quantite) '
+                . 'VALUES(:unIdVisiteur, :unMois, :idFraisKm, 0)'
+                );
+            $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+            $requetePrepare->bindParam(
+                ':idFraisKm',
+                $unIdFraisKm['idfraiskm'],
+                PDO::PARAM_STR
+                );
+            $requetePrepare->execute();  
         }
     }
     

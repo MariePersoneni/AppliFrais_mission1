@@ -27,8 +27,10 @@ case 'saisirFrais':
     break;
 case 'validerMajFraisForfait':
     $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
-    if (lesQteFraisValides($lesFrais)) {
+    $lesFraisKm = filter_input(INPUT_POST, 'lesFraisKm', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+    if (lesQteFraisValides($lesFrais) && lesQteFraisValides($lesFraisKm)) {
         $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais);
+        $pdo->majFraisKm($idVisiteur, $mois, $lesFraisKm);
     } else {
         ajouterErreur('Les valeurs des frais doivent être numériques');
         include 'vues/v_erreurs.php';
@@ -58,5 +60,6 @@ case 'supprimerFrais':
 }
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+$lesFraisKilometriques = $pdo->getLesFraisKilometriques($idVisiteur, $mois);
 require 'vues/v_listeFraisForfait.php';
 require 'vues/v_listeFraisHorsForfait.php';
