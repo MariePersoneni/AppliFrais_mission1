@@ -33,7 +33,7 @@ case 'voirEtatFrais':
     include 'vues/v_listeMois.php';
     $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
     $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
-    $lesFraisKm = $pdo->getLesFraisKilometriques($idVisiteur, $leMois);
+    $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $leMois);
     $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
     $numAnnee = substr($leMois, 0, 4);
     $numMois = substr($leMois, 4, 2);
