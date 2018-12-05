@@ -782,6 +782,62 @@ class PdoGsb
             );
         }
         return $lesFichesValidees;
-    }    
+    }
+    
+    /**
+     * Fonction utilisée une seule fois suite au changement de 
+     * structure de la base de données pour la gestion des 
+     * frais kilométrique.
+     * La fonction parcours les fiches de frais et insert
+     * des lignes de frais kilométrique la ou il en manque.
+     */
+    public function insertFraisKmPrecedentesFiches()
+    {
+        //récupération de toutes les fiches
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT idvisiteur as idVisiteur, '
+            . 'mois as mois FROM fichefrais'
+            );
+        $requetePrepare->execute();
+        $lesFiches = array();
+        while($laLigne = $requetePrepare->fetch()) {
+            $idVisiteur = $laLigne['idVisiteur'];            
+            $mois = $laLigne['mois'];            
+            $lesFiches[] = array(
+                'idVisiteur'        => $idVisiteur,                
+                'mois'              => $mois,
+            );
+        }
+        // récupération des id frais km
+        $lesIdFraisKm = $this->getLesIdFraisKm(); 
+        // parcours des fiches
+            foreach ($lesFiches as $uneFiche){
+                //récupère les lignes de frais km
+                $levisiteur = $uneFiche['idVisiteur'];
+                $lemois = $uneFiche['mois'];
+                $lesFraisKm = $this->getLesFraisKilometriques($levisiteur, $lemois);
+                // parcours des ID de frais km
+                foreach ($lesIdFraisKm as $unIdFraisKm){
+                    $idFraisKm = $unIdFraisKm['idfraiskm'];
+                    $trouve = false;
+                    foreach ($lesFraisKm as $unFraisKm){
+                        if ($idFraisKm == $unFraisKm['idfraiskm']){
+                            $trouve = true;
+                        }
+                    }
+                    if (!$trouve){
+                        // insertion dans la table
+                        $requetePrepare = PdoGsb::$monPdo->prepare(
+                            'INSERT INTO lignefraisforfait VALUES '
+                            . '(:levisiteur, :lemois, NULL , :idfraiskm, 0, \'\')'
+                            );
+                        $requetePrepare->bindParam(':levisiteur', $levisiteur, PDO::PARAM_STR);
+                        $requetePrepare->bindParam(':lemois', $lemois, PDO::PARAM_STR);
+                        $requetePrepare->bindParam(':idfraiskm', $idFraisKm, PDO::PARAM_STR);
+                        $requetePrepare->execute();
+                    }
+                }
+            }
+    }
     
 }
