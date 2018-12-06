@@ -75,7 +75,7 @@ switch ($action) {
             include 'vues/v_listeVisiteurs.php';
             include 'vues/v_validerFicheFrais.php';
         } else {
-            ajouterErreur('Les valeurs des frais doivent �tre numériques');
+            ajouterErreur('Les valeurs des frais doivent être numériques');
             include 'vues/v_erreurs.php';
             include 'vues/v_listeVisiteurs.php';
             include 'vues/v_validerFicheFrais.php';

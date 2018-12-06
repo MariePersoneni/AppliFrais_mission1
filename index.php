@@ -13,7 +13,8 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-
+require_once 'includes/FPDF/fpdf.php';
+require_once 'includes/classExtends.fpdf.inc.php';
 require_once 'includes/fct.inc.php';
 require_once 'includes/class.pdogsb.inc.php';
 session_start();
@@ -29,9 +30,11 @@ if ($uc && !$estConnecte) {
 switch ($uc) {
 case 'connexion':
     include 'controleurs/c_connexion.php';
+    include 'vues/v_impressionFiche.php';
     break;
 case 'accueil':
-    include 'controleurs/c_accueil.php';
+    //include 'controleurs/c_accueil.php';
+    include 'vues/v_impressionFiche.php';
     break;
 case 'gererFrais':
     include 'controleurs/c_gererFrais.php';
