@@ -13,8 +13,7 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-require_once 'includes/FPDF/fpdf.php';
-require_once 'includes/classExtends.fpdf.inc.php';
+
 require_once 'includes/fct.inc.php';
 require_once 'includes/class.pdogsb.inc.php';
 session_start();
@@ -33,8 +32,7 @@ case 'connexion':
     include 'vues/v_impressionFiche.php';
     break;
 case 'accueil':
-    //include 'controleurs/c_accueil.php';
-    include 'vues/v_impressionFiche.php';
+    include 'controleurs/c_accueil.php';
     break;
 case 'gererFrais':
     include 'controleurs/c_gererFrais.php';

@@ -42,4 +42,9 @@ case 'voirEtatFrais':
     $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
     $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
     include 'vues/v_etatFrais.php';
+    break;
+case 'imprimerFiche':
+    $leMois = filter_input(INPUT_POST, 'hdMois', FILTER_SANITIZE_STRING);
+    include 'vues/v_impressionFiche.php';
+    break;    
 }

@@ -16,13 +16,22 @@
 ?>
 <hr>
 <div class="panel panel-primary">
-    <div class="panel-heading">Fiche de frais du mois 
-        <?php echo $numMois . '-' . $numAnnee ?> : </div>
+    <div class="panel-heading">
+    	<form 	method="post"
+            	action="index.php?uc=etatFrais&action=imprimerFiche">
+    		<div>Fiche de frais du mois 
+       		 <?php echo $numMois . '-' . $numAnnee ?> :              	
+        		<button id="#icon-print" type="submit"><span class="glyphicon glyphicon-print"></span></button>
+        		<input 	type="hidden" id="hdMois" name="hdMois" 
+        				value="<?php echo $leMois ?>">
+    		</form>
+        </div>
+    </div>
     <div class="panel-body">
         <strong><u>Etat :</u></strong> <?php echo $libEtat ?>
         depuis le <?php echo $dateModif ?> <br> 
         <strong><u>Montant validé :</u></strong> <?php echo $montantValide ?>
-    </div>
+    </div>    
 </div>
 <div class="panel panel-info">
     <div class="panel-heading">Eléments forfaitisés</div>

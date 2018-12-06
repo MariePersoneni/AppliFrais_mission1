@@ -783,7 +783,7 @@ class PdoGsb
         }
         return $lesFichesValidees;
     }
-    
+     
     /**
      * Fonction utilisée une seule fois suite au changement de 
      * structure de la base de données pour la gestion des 
