@@ -44,7 +44,12 @@ case 'voirEtatFrais':
     include 'vues/v_etatFrais.php';
     break;
 case 'imprimerFiche':
+    require_once 'includes/FPDF/fpdf.php';
+    require_once 'includes/classExtends.fpdf.inc.php';
     $leMois = filter_input(INPUT_POST, 'hdMois', FILTER_SANITIZE_STRING);
+    $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
+    $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
+    $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $leMois);
     include 'vues/v_impressionFiche.php';
     break;    
 }
