@@ -36,16 +36,22 @@ class PDF extends FPDF
     // Tableau simple
     function BasicTable($header, $data)
     {
-        // En-tÍte
-        foreach($header as $col)
-            $this->Cell(40,7,$col,1);
-            $this->Ln();
-            // DonnÈes
-            foreach($data as $row)
-            {
-                foreach($row as $col)
+        // En-t√©te
+        foreach($header as $col){
+            $this->Cell(40,7,$col,1);            
+        }
+        $this->Ln();
+        // Donn√©es
+        foreach($data as $row){            
+            $precedent = "";
+            foreach($row as $col){
+                if ($precedent <> $col){
                     $this->Cell(40,6,$col,1);
-                    $this->Ln();
-            }
+                }
+                $precedent = $col;  
+            }            
+            $this->Ln();
+        }
+        
     }
 }

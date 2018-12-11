@@ -2,7 +2,8 @@
 /**
  * Classe d'accès aux données.
  *
- * PHP Version 7
+ * PHP Version 7 
+ * 
  *
  * @category  PPE
  * @package   GSB
@@ -165,6 +166,33 @@ class PdoGsb
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
         return $requetePrepare->fetchAll();
+    }
+    
+    /**
+     * Fonction qui reçoit en paramètre un tableau de frais forfait,
+     * qui calcule le montant total de chaque frais et qui retourne
+     * un tableau réarrangé pour l'impression.
+     * 
+     * @param array     $lesFrais 
+     * @return array    $LesFraisForfaitCalcules 
+     */
+    public function getLesFraisForfaitCalcules($lesFrais)
+    {
+        $LesFraisForfaitCalcules = array();
+        foreach ($lesFrais as $unFraisForfait){
+            $idFrais = $unFraisForfait['idfrais'];
+            $libelle = $unFraisForfait['libelle'];
+            $quantite = $unFraisForfait['quantite'];
+            $montantFrais = $this->getMontantFraisForfait($idFrais, 'fraisforfait');
+            $total = floatval($montantFrais) * floatval($quantite);
+            $LesFraisForfaitCalcules[] = array(
+                'libelle' => $libelle,
+                'quantite' => $quantite,
+                'montant' => $montantFrais,
+                'total' => number_format($total, 2)
+            );
+        }
+        return $LesFraisForfaitCalcules;
     }
     
     /**
@@ -388,7 +416,7 @@ class PdoGsb
      */
     public function majNbJustificatifs($idVisiteur, $mois, $nbJustificatifs)
     {
-        $requetePrepare = PdoGB::$monPdo->prepare(
+        $requetePrepare = PdoGsb::$monPdo->prepare(
             'UPDATE fichefrais '
             . 'SET nbjustificatifs = :unNbJustificatifs '
             . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
@@ -783,6 +811,7 @@ class PdoGsb
         }
         return $lesFichesValidees;
     }
+        
      
     /**
      * Fonction utilisée une seule fois suite au changement de 
@@ -814,7 +843,7 @@ class PdoGsb
         $lesIdFraisKm = $this->getLesIdFraisKm(); 
         // parcours des fiches
             foreach ($lesFiches as $uneFiche){
-                //récup�re les lignes de frais km
+                //récupère les lignes de frais km
                 $levisiteur = $uneFiche['idVisiteur'];
                 $lemois = $uneFiche['mois'];
                 $lesFraisKm = $this->getLesFraisKm($levisiteur, $lemois);

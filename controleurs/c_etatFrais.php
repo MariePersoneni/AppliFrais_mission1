@@ -50,6 +50,7 @@ case 'imprimerFiche':
     $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
     $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
     $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $leMois);
+    $lesFraisForfaitCalcules = $pdo->getLesFraisForfaitCalcules($lesFraisForfait);
     include 'vues/v_impressionFiche.php';
     break;    
 }

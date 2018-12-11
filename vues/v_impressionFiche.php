@@ -1,5 +1,4 @@
 <?php
-xdebug_break();
 $titre = 'REMBOURSEMENT DE FRAIS ENGAGES';
 $pdf = new PDF();
 $pdf->AddPage();
@@ -8,10 +7,10 @@ $pdf->SetFont('Arial','B',16);
 // Tableau de frais forfait
 $colonnesFraisForfait = array(
     'Frais forfaitaires', 
-    'Quantité',
+    'QuantitÃ©',
     'Montant unitaire',
     'Total'
 );
-//$pdf->BasicTable($colonnesFraisForfait, $lesFraisForfait);
+$pdf->BasicTable($colonnesFraisForfait, $lesFraisForfaitCalcules);
 $pdf->Output();
 ?>
