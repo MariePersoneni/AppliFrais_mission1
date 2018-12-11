@@ -54,4 +54,32 @@ class PDF extends FPDF
         }
         
     }
+    
+    // Tableau amélioré
+    function ImprovedTable($header, $data)
+    {        
+        // Largeurs des colonnes
+        $margeG = 30;
+        $w = array(50, 37, 37, 26);
+        $this->SetX($margeG);
+        // En-téte
+        for($i=0;$i<count($header);$i++) {
+            $this->SetFont('Times','BI',11);
+            $this->SetTextColor(31, 72, 118);
+            $this->Cell($w[$i],7,$header[$i],1,0,'C');
+        }
+        $this->Ln();
+        // Données
+        foreach($data as $row)
+        {
+            $this->SetX($margeG);
+            $this->SetFont('Times','',11);
+            $this->SetTextColor(0, 0, 0);
+            $this->Cell($w[0],8,$row['libelle'],1);
+            $this->Cell($w[1],8,$row['quantite'],1,0,'R');
+            $this->Cell($w[2],8,number_format($row['montant'],2, ',', ' '),1,0,'R');
+            $this->Cell($w[3],8,$row['total'],1,0,'R');
+            $this->Ln();
+        }        
+    }
 }

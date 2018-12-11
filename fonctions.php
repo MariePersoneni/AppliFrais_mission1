@@ -378,4 +378,5 @@ function majFicheFrais($pdo)
         $pdo->exec($req);
     }
 }
+
 ?>

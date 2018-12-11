@@ -339,3 +339,48 @@ function getMoisPrecedent($mois)
     return $numAnnee . $numMois;
 }
 
+function getMoisFormatTexte($mois)
+{
+    $numAnnee = substr($mois, 0, 4);
+    $numMois = substr($mois, 4, 2);
+    switch ($numMois) {
+        case '01' :
+            $leMois = 'Janvier';
+            break;
+        case '02' :
+            $leMois = 'Février';
+            break;
+        case '03' :
+            $leMois = 'Mars';
+            break;
+        case '04' :
+            $leMois = 'Avril';
+            break;
+        case '05' :
+            $leMois = 'Mai';
+            break;
+        case '06' :
+            $leMois = 'Juin';
+            break;
+        case '07' :
+            $leMois = 'Juillet';
+            break;
+        case '08' :
+            $leMois = 'Août';
+            break;
+        case '09' :
+            $leMois = 'Septembre';
+            break;
+        case '10' :
+            $leMois = 'Octobre';
+            break;
+        case '11' :
+            $leMois = 'Novembre';
+            break;
+        case '12' :
+            $leMois = 'Décembre';
+            break;
+    }    
+    return $leMois.' '.$numAnnee;
+}
+

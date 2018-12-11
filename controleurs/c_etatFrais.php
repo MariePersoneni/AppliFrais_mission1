@@ -51,6 +51,9 @@ case 'imprimerFiche':
     $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
     $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $leMois);
     $lesFraisForfaitCalcules = $pdo->getLesFraisForfaitCalcules($lesFraisForfait);
+    $idFicheFrais = $idVisiteur .'/'.$leMois;
+    $nomVisiteur = $_SESSION['prenom'].' '.$_SESSION['nom'];
+    $moisAffiche = getMoisFormatTexte($leMois);
     include 'vues/v_impressionFiche.php';
     break;    
 }

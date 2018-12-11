@@ -181,7 +181,7 @@ class PdoGsb
         $LesFraisForfaitCalcules = array();
         foreach ($lesFrais as $unFraisForfait){
             $idFrais = $unFraisForfait['idfrais'];
-            $libelle = $unFraisForfait['libelle'];
+            $libelle = htmlspecialchars($unFraisForfait['libelle']);
             $quantite = $unFraisForfait['quantite'];
             $montantFrais = $this->getMontantFraisForfait($idFrais, 'fraisforfait');
             $total = floatval($montantFrais) * floatval($quantite);
@@ -189,7 +189,7 @@ class PdoGsb
                 'libelle' => $libelle,
                 'quantite' => $quantite,
                 'montant' => $montantFrais,
-                'total' => number_format($total, 2)
+                'total' => number_format($total, 2, ',', ' ')
             );
         }
         return $LesFraisForfaitCalcules;
