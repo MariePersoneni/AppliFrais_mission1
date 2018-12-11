@@ -28,5 +28,12 @@ $colonnesFraisForfait = array(
     'Total'
 );
 $pdf->ImprovedTable($colonnesFraisForfait, $lesFraisForfaitCalcules);
+// Tableau de frais KM
+$colonnesFraisKm = array(
+    'Type de véhicule',
+    'Kilomètres parcourus',
+    'Montant unitaire',
+    'Total'
+);
 $pdf->Output();
 ?>
