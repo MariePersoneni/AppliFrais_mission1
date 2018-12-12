@@ -81,24 +81,6 @@ function dateAnglaisVersFrancais($maDate)
 }
 
 /**
- * Retourne le mois au format aaaamm selon le jour dans le mois
- *
- * @param String $date au format  jj/mm/aaaa
- *
- * @return String Mois au format aaaamm
- */
-function getMois($date)
-{
-    @list($jour, $mois, $annee) = explode('/', $date);
-    unset($jour);
-    if (strlen($mois) == 1) {
-        $mois = '0' . $mois;
-    }
-    return $annee . $mois;
-}
-
-
-/**
  * Retourne un tableau associatif qui contient les mois
  * d'un an en arrière depuis la date du jour
  * @return string[]|number[]
@@ -292,51 +274,6 @@ function filtrerChainePourBD($chaine)
         $chaine = addslashes($chaine);
     }
     return $chaine;
-}
-/**
- * Fonction qui retourne le mois suivant un mois passé en paramètre
- *
- * @param String $mois Contient le mois à utiliser
- *
- * @return String le mois d'après
- */
-function getMoisSuivant($mois)
-{
-    $numAnnee = substr($mois, 0, 4);
-    $numMois = substr($mois, 4, 2);
-    if ($numMois == '12') {
-        $numMois = '01';
-        $numAnnee++;
-    } else {
-        $numMois++;
-    }
-    if (strlen($numMois) == 1) {
-        $numMois = '0' . $numMois;
-    }
-    return $numAnnee . $numMois;
-}
-
-/**
- * Fonction qui retourne le mois précédent un mois passé en paramètre
- *
- * @param String $mois Contient le mois à utiliser
- *
- * @return String le mois d'avant
- */
-function getMoisPrecedent($mois)
-{
-    $numAnnee = substr($mois, 0, 4);
-    $numMois = substr($mois, 4, 2);
-    if ($numMois == '01') {
-        $numMois = '12';
-        $numAnnee--;
-    } else {
-        $numMois--;
-    }
-    if (strlen($numMois) == 1) {
-        $numMois = '0' . $numMois;
-    }
-    return $numAnnee . $numMois;
 }
 
 function getMoisFormatTexte($mois)
