@@ -110,35 +110,9 @@ switch ($action) {
         $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $mois);
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
-        // calcul du montant total validé
-        // calcul des frais forfait
-        $montantValide = 0;
-        foreach ($lesFraisForfait as $unFraisForfait){
-            $qteFrais = intval($unFraisForfait['quantite']);
-            if ($qteFrais <> 0){
-                $idFrais = $unFraisForfait['idfrais'];
-                $montantFrais = $pdo->getMontantFraisForfait($idFrais, 'fraisforfait');
-                $montantValide += intval($montantFrais) * $qteFrais;
-            }
-        }
-        // calcul des frais kilométriques
-        foreach ($lesFraisKm as $unFraisKm){
-            $qteFrais = intval($unFraisKm['quantite']);
-            if ($qteFrais <> 0){
-                $idFraisKm = $unFraisKm['idfrais'];
-                $montantFrais = $pdo->getMontantFraisForfait($idFraisKm, 'fraiskilometrique');
-                $montantValide += floatval($montantFrais) * $qteFrais;
-            }
-        }
-        // calcul des frais hors forfait
-        foreach ($lesFraisHorsForfait as $unFraisHorsForfait){
-            $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
-            $debut_libelle = substr($libelle, 0,6);
-            if ($debut_libelle <> 'REFUSE'){
-                $montantFrais = intval($unFraisHorsForfait['montant']);
-                $montantValide += $montantFrais;
-            }
-        }
+        $montantValide = $pdo->calculeMontantTotalFiche(
+            $lesFraisForfait, $lesFraisKm, $lesFraisHorsForfait
+            );
         $pdo->majMontantFicheFrais($idVisiteur, $mois, $montantValide);
         include 'vues/v_modificationEffectuee.php';
         include 'vues/v_listeVisiteurs.php';

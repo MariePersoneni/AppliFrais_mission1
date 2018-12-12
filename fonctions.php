@@ -379,4 +379,22 @@ function majFicheFrais($pdo)
     }
 }
 
+/**
+ * Fonction qui retourne vrai si le tableau de frais contient des
+ * quantités.
+ * 
+ * @param array $lesFrais
+ * @return boolean 
+ */
+function existeFraisForfait($lesFrais)
+{
+    $existe = false;
+    foreach ($lesFrais as $unFrais) {
+        if ($unFrais['quantite'] <> 0) {
+            $existe = true;
+        }
+    }
+    return $existe;
+}
+
 ?>

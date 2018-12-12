@@ -181,7 +181,7 @@ class PdoGsb
         $LesFraisForfaitCalcules = array();
         foreach ($lesFrais as $unFrais){
             $idFrais = $unFrais['idfrais'];
-            $libelle = htmlspecialchars($unFrais['libelle']);
+            $libelle = $unFrais['libelle'];
             $quantite = $unFrais['quantite'];
             $montantFrais = $this->getMontantFraisForfait($idFrais, $tableFrais);
             $total = floatval($montantFrais) * floatval($quantite);
@@ -727,6 +727,40 @@ class PdoGsb
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
+    }
+    
+    public function calculeMontantTotalFiche(
+        $lesFraisForfait, $lesFraisKm, $lesFraisHorsForfait)
+    {        
+        $montant = 0;
+        // calcul des frais forfait
+        foreach ($lesFraisForfait as $unFraisForfait){
+            $qteFrais = intval($unFraisForfait['quantite']);
+            if ($qteFrais <> 0){
+                $idFrais = $unFraisForfait['idfrais'];
+                $montantFrais = $this->getMontantFraisForfait($idFrais, 'fraisforfait');
+                $montant += intval($montantFrais) * $qteFrais;
+            }
+        }
+        // calcul des frais kilométriques
+        foreach ($lesFraisKm as $unFraisKm){
+            $qteFrais = intval($unFraisKm['quantite']);
+            if ($qteFrais <> 0){
+                $idFraisKm = $unFraisKm['idfrais'];
+                $montantFrais = $this->getMontantFraisForfait($idFraisKm, 'fraiskilometrique');
+                $montant += floatval($montantFrais) * $qteFrais;
+            }
+        }
+        // calcul des frais hors forfait
+        foreach ($lesFraisHorsForfait as $unFraisHorsForfait){
+            $libelle = ($unFraisHorsForfait['libelle']);
+            $debut_libelle = substr($libelle, 0,6);
+            if ($debut_libelle <> 'REFUSE'){
+                $montantFrais = intval($unFraisHorsForfait['montant']);
+                $montant += $montantFrais;
+            }
+        }
+        return $montant;
     }
     
     /**

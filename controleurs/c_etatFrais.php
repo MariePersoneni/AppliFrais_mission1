@@ -45,7 +45,7 @@ case 'voirEtatFrais':
     break;
 case 'imprimerFiche':
     require_once 'includes/FPDF/fpdf.php';
-    require_once 'includes/classExtends.fpdf.inc.php';
+    require_once 'includes/class.pdf.inc.php';
     $leMois = filter_input(INPUT_POST, 'hdMois', FILTER_SANITIZE_STRING);
     $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
     $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
@@ -55,6 +55,11 @@ case 'imprimerFiche':
     $idFicheFrais = $idVisiteur .'/'.$leMois;
     $nomVisiteur = $_SESSION['prenom'].' '.$_SESSION['nom'];
     $moisAffiche = getMoisFormatTexte($leMois);
+    $existeFraisForfait = existeFraisForfait($lesFraisForfaitCalcules);
+    $existeFraisKm = existeFraisForfait($lesFraisKmCalcules);
+    $montantTotal = $pdo->calculeMontantTotalFiche(
+        $lesFraisForfait, $lesFraisKm, $lesFraisHorsForfait
+    );
     include 'vues/v_impressionFiche.php';
     break;    
 }
