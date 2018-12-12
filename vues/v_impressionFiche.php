@@ -3,7 +3,7 @@ $titre = 'REMBOURSEMENT DE FRAIS ENGAGES';
 $pdf = new PDF();
 $pdf->AddPage();
 $pdf->Cadre($titre);
-$pdf->ln(12);
+$pdf->ln(10);
 // Infos visiteur
 $pdf->SetFont('Times', '', 11);
 $pdf->SetTextColor(0, 0, 0);
@@ -27,13 +27,33 @@ $colonnesFraisForfait = array(
     'Montant unitaire',
     'Total'
 );
-$pdf->ImprovedTable($colonnesFraisForfait, $lesFraisForfaitCalcules);
+$pdf->ImprovedTable($colonnesFraisForfait, $lesFraisForfaitCalcules, true);
+$pdf->Ln(10);
 // Tableau de frais KM
+$pdf->SetFont('Times', 'BI', 11);
+$pdf->SetTextColor(31, 72, 118);
+$w = $pdf->GetStringWidth('Frais kilométriques');
+$pdf->SetX((210-$w)/2);
+$pdf->Cell(40, 6, 'Frais kilométriques', 0, 1, 'C');
 $colonnesFraisKm = array(
     'Type de véhicule',
     'Kilomètres parcourus',
     'Montant unitaire',
     'Total'
 );
+$pdf->ImprovedTable($colonnesFraisKm,$lesFraisKmCalcules, true);
+$pdf->Ln(10);
+// Tableau de frais hors forfait
+$colonnesFraisHorsForfait = array(
+    'Date',
+    'Libellé',
+    'Montant'
+);
+$pdf->SetFont('Times', 'BI', 11);
+$pdf->SetTextColor(31, 72, 118);
+$w = $pdf->GetStringWidth('Autres frais');
+$pdf->SetX((210-$w)/2);
+$pdf->Cell(40, 6, 'Autres frais', 0, 1, 'C');
+$pdf->ImprovedTable($colonnesFraisHorsForfait, $lesFraisHorsForfait, false);
 $pdf->Output();
 ?>

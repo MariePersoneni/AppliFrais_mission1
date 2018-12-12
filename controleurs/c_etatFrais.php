@@ -50,7 +50,8 @@ case 'imprimerFiche':
     $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
     $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
     $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $leMois);
-    $lesFraisForfaitCalcules = $pdo->getLesFraisForfaitCalcules($lesFraisForfait);
+    $lesFraisForfaitCalcules = $pdo->getLesFraisForfaitCalcules($lesFraisForfait, 'fraisforfait');
+    $lesFraisKmCalcules = $pdo->getLesFraisForfaitCalcules($lesFraisKm, 'fraiskilometrique');
     $idFicheFrais = $idVisiteur .'/'.$leMois;
     $nomVisiteur = $_SESSION['prenom'].' '.$_SESSION['nom'];
     $moisAffiche = getMoisFormatTexte($leMois);

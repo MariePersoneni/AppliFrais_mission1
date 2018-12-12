@@ -176,14 +176,14 @@ class PdoGsb
      * @param array     $lesFrais 
      * @return array    $LesFraisForfaitCalcules 
      */
-    public function getLesFraisForfaitCalcules($lesFrais)
+    public function getLesFraisForfaitCalcules($lesFrais, $tableFrais)
     {
         $LesFraisForfaitCalcules = array();
-        foreach ($lesFrais as $unFraisForfait){
-            $idFrais = $unFraisForfait['idfrais'];
-            $libelle = htmlspecialchars($unFraisForfait['libelle']);
-            $quantite = $unFraisForfait['quantite'];
-            $montantFrais = $this->getMontantFraisForfait($idFrais, 'fraisforfait');
+        foreach ($lesFrais as $unFrais){
+            $idFrais = $unFrais['idfrais'];
+            $libelle = htmlspecialchars($unFrais['libelle']);
+            $quantite = $unFrais['quantite'];
+            $montantFrais = $this->getMontantFraisForfait($idFrais, $tableFrais);
             $total = floatval($montantFrais) * floatval($quantite);
             $LesFraisForfaitCalcules[] = array(
                 'libelle' => $libelle,
@@ -208,7 +208,7 @@ class PdoGsb
     public function getLesFraisKm($idVisiteur, $mois)
     {
         $requetePrepare = PdoGSB::$monPdo->prepare(
-            'SELECT fraiskilometrique.id as idfraiskm, '
+            'SELECT fraiskilometrique.id as idfrais, '
             . 'fraiskilometrique.libelle as libelle, '
             . 'lignefraisforfait.quantite as quantite '
             . 'FROM lignefraisforfait '
@@ -247,7 +247,7 @@ class PdoGsb
     public function getLesIdFraisKm()
     {
         $requetePrepare = PdoGsb::$monPdo->prepare(
-            'SELECT fraiskilometrique.id as idfraiskm '
+            'SELECT fraiskilometrique.id as idfrais '
             . 'FROM fraiskilometrique '
             . 'ORDER BY fraiskilometrique.id'
             );
@@ -294,7 +294,7 @@ class PdoGsb
      *
      * @param String $idVisiteur   ID du visiteur
      * @param String $mois         Mois sous la forme aaaamm
-     * @param Array  $lesFraisKm   tableau associatif de clé idFraisKm
+     * @param Array  $lesFraisKm   tableau associatif de clé idfrais
      *                             et de valeur la quantité pour ce frais
      *
      * @return null
@@ -309,7 +309,7 @@ class PdoGsb
                 . 'SET lignefraisforfait.quantite = :uneQte '
                 . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
                 . 'AND lignefraisforfait.mois = :unMois '
-                . 'AND lignefraisforfait.idfraiskm = :idFraisKm'
+                . 'AND lignefraisforfait.idfrais = :idFraisKm'
                 );
             $requetePrepare->bindParam(':uneQte', $qte, PDO::PARAM_INT);
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
@@ -530,14 +530,14 @@ class PdoGsb
         foreach ($lesIdFraisKm as $unIdFraisKm){
             $requetePrepare = PdoGsb::$monPdo->prepare(
                 'INSERT INTO lignefraisforfait (idvisiteur,mois,'
-                . 'idfraiskm,quantite) '
+                . 'idfrais,quantite) '
                 . 'VALUES(:unIdVisiteur, :unMois, :idFraisKm, 0)'
                 );
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
             $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
             $requetePrepare->bindParam(
                 ':idFraisKm',
-                $unIdFraisKm['idfraiskm'],
+                $unIdFraisKm['idfrais'],
                 PDO::PARAM_STR
                 );
             $requetePrepare->execute();  
@@ -849,10 +849,10 @@ class PdoGsb
                 $lesFraisKm = $this->getLesFraisKm($levisiteur, $lemois);
                 // parcours des ID de frais km
                 foreach ($lesIdFraisKm as $unIdFraisKm){
-                    $idFraisKm = $unIdFraisKm['idfraiskm'];
+                    $idFraisKm = $unIdFraisKm['idfrais'];
                     $trouve = false;
                     foreach ($lesFraisKm as $unFraisKm){
-                        if ($idFraisKm == $unFraisKm['idfraiskm']){
+                        if ($idFraisKm == $unFraisKm['idfrais']){
                             $trouve = true;
                         }
                     }

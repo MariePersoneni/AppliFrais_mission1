@@ -63,7 +63,7 @@ if ($lesInfosFicheFrais) {
                                         foreach ($lesFraisKm as $unFraisKm) {
                                             $libelle = htmlspecialchars($unFraisKm['libelle']);
                                             $quantite = $unFraisKm['quantite'];
-                                            $idFraisKm = $unFraisKm['idfraiskm']; ?>           
+                                            $idFraisKm = $unFraisKm['idfrais']; ?>           
                                             <tr>
                                                 <td> <?php echo $libelle ?></td>
                                                 <td> <input type="text" id="idFraisKm" 

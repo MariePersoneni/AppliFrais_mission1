@@ -125,7 +125,7 @@ switch ($action) {
         foreach ($lesFraisKm as $unFraisKm){
             $qteFrais = intval($unFraisKm['quantite']);
             if ($qteFrais <> 0){
-                $idFraisKm = $unFraisKm['idfraiskm'];
+                $idFraisKm = $unFraisKm['idfrais'];
                 $montantFrais = $pdo->getMontantFraisForfait($idFraisKm, 'fraiskilometrique');
                 $montantValide += floatval($montantFrais) * $qteFrais;
             }
