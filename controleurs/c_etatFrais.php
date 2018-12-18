@@ -44,9 +44,8 @@ case 'voirEtatFrais':
     include 'vues/v_etatFrais.php';
     break;
 case 'imprimerFiche':
-    require_once 'includes/FPDF/fpdf.php';
-    require_once 'includes/class.pdf.inc.php';
     $leMois = filter_input(INPUT_POST, 'hdMois', FILTER_SANITIZE_STRING);
+    $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
     $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
     $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
     $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $leMois);
@@ -60,6 +59,15 @@ case 'imprimerFiche':
     $montantTotal = $pdo->calculeMontantTotalFiche(
         $lesFraisForfait, $lesFraisKm, $lesFraisHorsForfait
     );
+    $idComptable = $lesInfosFicheFrais['comptable'];
+    if ($idComptable <> '') {
+        $dateValidation = $lesInfosFicheFrais['datevalidation'];
+        $dateValidation = dateAnglaisVersFrancais($dateValidation);
+        $dateValidation = getDateFormatTexte($dateValidation);
+        $lesInfosComptable = $pdo->getInfosComptable($idComptable, 'comptable');
+        $prenomComptable = $lesInfosComptable['prenom'];
+        $nomComptable = $lesInfosComptable['nom'];
+    }
     include 'vues/v_impressionFiche.php';
     break;    
 }

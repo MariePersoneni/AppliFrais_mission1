@@ -14,9 +14,11 @@
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
 
+require_once 'includes/fonctions.inc.php';
 require_once 'includes/fct.inc.php';
+require_once 'includes/FPDF/fpdf.php';
+require_once 'includes/class.pdf.inc.php';
 require_once 'includes/class.pdogsb.inc.php';
-require_once 'fonctions.php';
 session_start();
 $pdo = PdoGsb::getPdoGsb();
 $estConnecte = estConnecte();
@@ -30,7 +32,6 @@ if ($uc && !$estConnecte) {
 switch ($uc) {
 case 'connexion':
     include 'controleurs/c_connexion.php';
-    include 'vues/v_impressionFiche.php';
     break;
 case 'accueil':
     include 'controleurs/c_accueil.php';

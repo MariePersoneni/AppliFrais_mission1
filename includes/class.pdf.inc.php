@@ -8,6 +8,8 @@ class PDF extends FPDF
     const MARGE_G = 20;
     const MARGE_D = 190;    
     const LARGEUR_TITRE = 170;
+    const LARGEUR_PAGE = 210;
+    const PIED_PAGE = 260;
     
     // En-tête
     function Header()
@@ -17,7 +19,7 @@ class PDF extends FPDF
         // Saut de ligne
         $this->Ln(20);        
     }
-    
+     
     function Titre($titre)
     {
         $this->SetFont('Times','B',13.5);
@@ -48,7 +50,7 @@ class PDF extends FPDF
             $case2 = 'quantite';
             $case4 = 'total';
         } else {
-            $w = array(25, 100, 25);
+            $w = array(25, 99, 26);
             $case1 = 'date';
             $case2 = 'libelle';
         }        
@@ -67,12 +69,18 @@ class PDF extends FPDF
         // Données
         foreach ($data as $row)
         {
+            // initialisation de l'alignement pour la 2nde colonne
+            if ($fraisForfait) {
+                $align = 'R';
+            } else {
+                $align = 'L';
+            }
             if (!$fraisForfait | $row[$case2] <> 0) {
                 $this->SetX(self::POS_G);
                 $this->SetFont('Times','',11);
                 $this->SetTextColor(0, 0, 0);
                 $this->Cell($w[0],8,utf8_decode($row[$case1]),1);
-                $this->Cell($w[1],8,utf8_decode($row[$case2]),1,0,'R');
+                $this->Cell($w[1],8,utf8_decode($row[$case2]),1,0,$align);
                 $this->Cell($w[2],8,number_format($row[$case3],2, ',', ' '),1,0,'R');
                 if ($fraisForfait) {
                     $this->Cell($w[3],8,$row['total'],1,0,'R');

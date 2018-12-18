@@ -276,6 +276,32 @@ function filtrerChainePourBD($chaine)
     return $chaine;
 }
 
+/**
+ * Fonction qui transforme une date au format JJ/MM/AAAA
+ * au format JJ nomDuMois AAAA
+ * 
+ * @param  $date
+ * @return string
+ */
+function getDateFormatTexte($date)
+{
+    // récupération du format AAAAMM de la date
+    $mois = getMois($date);
+    // transformation du mois en texte
+    $moisTexte = getMoisFormatTexte($mois);
+    // construction de la date entière en format texte
+    $jour =  substr($date, 0, 2);
+    $dateTexte = $jour . ' ' . $moisTexte;
+    return $dateTexte;
+}
+
+/**
+ * Fonction qui transforme un mois du format AAAAMM au 
+ * format nomDuMois AAAA
+ * 
+ * @param  $mois
+ * @return string
+ */
 function getMoisFormatTexte($mois)
 {
     $numAnnee = substr($mois, 0, 4);

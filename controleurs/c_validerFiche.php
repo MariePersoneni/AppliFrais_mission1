@@ -81,6 +81,24 @@ switch ($action) {
             include 'vues/v_validerFicheFrais.php';
         }
         break;
+    case 'majNbJustificatifs': 
+        $nbJustificatifs = filter_input(INPUT_POST, 'nbJustificatifs',FILTER_SANITIZE_NUMBER_INT);
+        if (estEntierPositif($nbJustificatifs)) {
+            $pdo->majNbJustificatifs($idVisiteur, $mois, $nbJustificatifs);
+            $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
+            $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+            $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $mois);
+            $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
+            include 'vues/v_modificationEffectuee.php';
+            include 'vues/v_listeVisiteurs.php';
+            include 'vues/v_validerFicheFrais.php';
+        } else {
+            ajouterErreur('Les valeurs des frais doivent être numériques');
+            include 'vues/v_erreurs.php';
+            include 'vues/v_listeVisiteurs.php';
+            include 'vues/v_validerFicheFrais.php';
+        }
+        break;
     case 'reporterFraisHorsForfait':
         $pdo->reporterFraisHorsForfait($idVisiteur,$mois,$idFrais);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
@@ -88,7 +106,7 @@ switch ($action) {
         $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $mois);
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
-                include 'vues/v_modificationEffectuee.php';
+        include 'vues/v_modificationEffectuee.php';
         include 'vues/v_listeVisiteurs.php';
         include 'vues/v_validerFicheFrais.php';
         break;
@@ -109,6 +127,8 @@ switch ($action) {
         $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
         $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $mois);
         $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
+        $libEtat = $lesInfosFicheFrais['libEtat'];
+        $etatFiche = $lesInfosFicheFrais['idEtat'];
         $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
         $montantValide = $pdo->calculeMontantTotalFiche(
             $lesFraisForfait, $lesFraisKm, $lesFraisHorsForfait

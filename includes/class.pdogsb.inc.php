@@ -22,7 +22,7 @@ class PdoGsb
     private static $user = 'userGsb';
     private static $mdp = 'secret';
     private static $monPdo;
-    private static $monPdoGsb = null;
+    private static $monPdoGsb = null;    
     
     /**
      * Constructeur privé, crée l'instance de PDO qui sera sollicitée
@@ -64,11 +64,10 @@ class PdoGsb
     
     /**
      * Retourne les informations d'un utilisateur
-     * Enregistre le profil dans la variable $profil
      *
      * @param String $login     Login de l'utilisateur
      * @param String $mdp       Mot de passe de l'utilisateur
-     * @param String $profil    profil de l'utilisateur (comptable ou visiteur)
+     * @param String $table     Table qui contient l'enregistrement
      *
      * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
      */
@@ -82,6 +81,27 @@ class PdoGsb
             );
         $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetch();
+    }
+    
+    /**
+     * Retourne les informations d'un comptable 
+     *
+     * @param String $login     Login de l'utilisateur
+     * @param String $table     Table qui contient l'enregistrement
+     *
+     * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
+     */
+    public function getInfosComptable($idComptable, $table)
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            "SELECT {$table}.id AS id, {$table}.nom AS nom, "
+            . "{$table}.prenom AS prenom "
+            . "FROM {$table} "
+            . "WHERE {$table}.id = :idComptable"
+            );
+        $requetePrepare->bindParam(':idComptable', $idComptable, PDO::PARAM_STR);
         $requetePrepare->execute();
         return $requetePrepare->fetch();
     }
@@ -309,7 +329,7 @@ class PdoGsb
                 . 'SET lignefraisforfait.quantite = :uneQte '
                 . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
                 . 'AND lignefraisforfait.mois = :unMois '
-                . 'AND lignefraisforfait.idfrais = :idFraisKm'
+                . 'AND lignefraisforfait.idfraiskm = :idFraisKm'
                 );
             $requetePrepare->bindParam(':uneQte', $qte, PDO::PARAM_INT);
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
@@ -671,7 +691,9 @@ class PdoGsb
             . 'fichefrais.datemodif as dateModif,'
             . 'fichefrais.nbjustificatifs as nbJustificatifs, '
             . 'fichefrais.montantvalide as montantValide, '
-            . 'etat.libelle as libEtat '
+            . 'etat.libelle as libEtat, '
+            . 'fichefrais.auteurvalidation as comptable, '
+            . 'fichefrais.datevalidation as datevalidation '
             . 'FROM fichefrais '
             . 'INNER JOIN etat ON fichefrais.idetat = etat.id '
             . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
@@ -696,12 +718,24 @@ class PdoGsb
      */
     public function majEtatFicheFrais($idVisiteur, $mois, $etat)
     {
-        $requetePrepare = PdoGSB::$monPdo->prepare(
-            'UPDATE ficheFrais '
-            . 'SET idetat = :unEtat, datemodif = now() '
-            . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
-            . 'AND fichefrais.mois = :unMois'
-            );
+        if($etat == 'VA'){
+            $idComptable = $_SESSION['idUtilisateur'];
+            $requetePrepare = PdoGSB::$monPdo->prepare(
+                'UPDATE ficheFrais '
+                . 'SET idetat = :unEtat, datemodif = now(), '
+                . 'auteurvalidation = :idcomptable, datevalidation = now() '
+                . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+                . 'AND fichefrais.mois = :unMois'
+                );
+            $requetePrepare->bindParam(':idcomptable', $idComptable, PDO::PARAM_STR);            
+        } else {
+            $requetePrepare = PdoGSB::$monPdo->prepare(
+                'UPDATE ficheFrais '
+                . 'SET idetat = :unEtat, datemodif = now() '
+                . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+                . 'AND fichefrais.mois = :unMois'
+                );
+        }
         $requetePrepare->bindParam(':unEtat', $etat, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);

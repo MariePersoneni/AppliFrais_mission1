@@ -1,3 +1,4 @@
+
 <?php
 $titre = 'REMBOURSEMENT DE FRAIS ENGAGES';
 $pdf = new PDF();
@@ -17,6 +18,7 @@ $pdf->SetX(PDF::POS_G);
 $pdf->Cell(40, 6, 'Mois', 0, 0);
 $pdf->SetX(PDF::POS_M);
 $pdf->Cell(40, 6, $moisAffiche, 0, 1);
+$pdf->ln(5);
 // Tableau de frais forfait
 if($existeFraisForfait) {
     $colonnesFraisForfait = array(
@@ -33,8 +35,8 @@ if($existeFraisKm) {
     $pdf->SetFont('Times', 'BI', 11);
     $pdf->SetTextColor(31, 72, 118);
     $w = $pdf->GetStringWidth('Frais kilométriques');
-    $pdf->SetX((210-$w)/2);
-    $pdf->Cell(40, 6, 'Frais kilométriques', 0, 1, 'C');
+    $pdf->SetX(0);
+    $pdf->Cell(PDF::LARGEUR_PAGE, 6, 'Frais kilométriques', 0, 1, 'C');
     $colonnesFraisKm = array(
         'Type de véhicule',
         'Kilomètres parcourus',
@@ -54,8 +56,8 @@ if (!empty($lesFraisHorsForfait)) {
     $pdf->SetFont('Times', 'BI', 11);
     $pdf->SetTextColor(31, 72, 118);
     $w = $pdf->GetStringWidth('Autres frais');
-    $pdf->SetX((210-$w)/2);
-    $pdf->Cell(40, 6, 'Autres frais', 0, 1, 'C');
+    $pdf->SetX(0);
+    $pdf->Cell(PDF::LARGEUR_PAGE, 6, 'Autres frais', 0, 1, 'C');
     $pdf->TableauFrais($colonnesFraisHorsForfait, $lesFraisHorsForfait, false);
     $pdf->Ln(10);
 }
@@ -63,6 +65,20 @@ if (!empty($lesFraisHorsForfait)) {
 $pdf->TableauTotal($leMois, $montantTotal);
 if ($pdf->PageNo() == 1) {
     $pdf->Cadre();
+}
+// Affichage infos comptable
+if ($idComptable <> '') {
+    // récupération de la position verticale du curseur
+    $posY = $pdf->GetY();
+    if ($posY > PDF::PIED_PAGE) {
+        $pdf->AddPage();
+    }
+    // positionnement à 1,5 cm du bas
+    $pdf->SetXY(PDF::POS_D, PDF::PIED_PAGE);
+    $pdf->SetFont('Times', '', 11);
+    $pdf->Cell(0,8, 'Fait à Paris, le ' . $dateValidation,0,2);
+    $pdf->Cell( 0,8, 'Vu l\'agent comptable ' . strtoupper($nomComptable) 
+                . ' ' . $prenomComptable);
 }
 $pdf->Output();
 ?>

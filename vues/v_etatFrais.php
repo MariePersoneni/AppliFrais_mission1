@@ -17,7 +17,7 @@
 <hr>
 <div class="panel panel-primary">
     <div class="panel-heading">
-    	<form 	method="post"
+    	<form 	method="post" target="_blank"
             	action="index.php?uc=etatFrais&action=imprimerFiche">
     		<div>Fiche de frais du mois 
        		 <?php echo $numMois . '-' . $numAnnee ?> :              	
