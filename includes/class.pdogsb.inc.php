@@ -116,7 +116,7 @@ class PdoGsb
      * @param String $idVisiteur ID du visiteur
      * @param String $mois       Mois sous la forme aaaamm
      *
-     * @return tous les champs des lignes de frais hors forfait sous la forme
+     * @return array : tous les champs des lignes de frais hors forfait sous la forme
      * d'un tableau associatif
      */
     public function getLesFraisHorsForfait($idVisiteur, $mois)
@@ -143,7 +143,7 @@ class PdoGsb
      * @param String $idVisiteur ID du visiteur
      * @param String $mois       Mois sous la forme aaaamm
      *
-     * @return le nombre entier de justificatifs
+     * @return int : le nombre entier de justificatifs
      */
     public function getNbjustificatifs($idVisiteur, $mois)
     {
@@ -247,7 +247,7 @@ class PdoGsb
     /**
      * Retourne tous les id de la table FraisForfait
      *
-     * @return un tableau associatif
+     * @return array : un tableau associatif
      */
     public function getLesIdFrais()
     {
@@ -262,7 +262,7 @@ class PdoGsb
     /**
      * Retourne tous les id de la table Fraiskilometrique
      * 
-     * @return un tableau associatif
+     * @return array : un tableau associatif
      */
     public function getLesIdFraisKm()
     {
@@ -458,7 +458,7 @@ class PdoGsb
      * @param String $idVisiteur ID du visiteur
      * @param String $mois       Mois sous la forme aaaamm
      *
-     * @return vrai ou faux
+     * @return boolean : vrai ou faux
      */
     public function estPremierFraisMois($idVisiteur, $mois)
     {
@@ -482,7 +482,7 @@ class PdoGsb
      *
      * @param String $idVisiteur ID du visiteur
      *
-     * @return le mois sous la forme aaaamm
+     * @return String : le mois sous la forme aaaamm
      */
     public function dernierMoisSaisi($idVisiteur)
     {
@@ -550,7 +550,7 @@ class PdoGsb
         foreach ($lesIdFraisKm as $unIdFraisKm){
             $requetePrepare = PdoGsb::$monPdo->prepare(
                 'INSERT INTO lignefraisforfait (idvisiteur,mois,'
-                . 'idfrais,quantite) '
+                . 'idfraiskm,quantite) '
                 . 'VALUES(:unIdVisiteur, :unMois, :idFraisKm, 0)'
                 );
             $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
@@ -619,7 +619,7 @@ class PdoGsb
      *
      * @param String $idVisiteur ID du visiteur
      *
-     * @return un tableau associatif de clé un mois -aaaamm- et de valeurs
+     * @return array :  un tableau associatif de clé un mois -aaaamm- et de valeurs
      *         l'année et le mois correspondant
      */
     public function getLesMoisDisponibles($idVisiteur)
@@ -648,7 +648,7 @@ class PdoGsb
     
     /**
      * Récupère tous les visiteurs de la base de données
-     * @return un tableau associatif qui contien l'id, le nom et prénom
+     * @return array : un tableau associatif qui contien l'id, le nom et prénom
      * de chaque visiteur
      */
     public function getLesVisiteurs()
@@ -681,7 +681,7 @@ class PdoGsb
      * @param String $idVisiteur ID du visiteur
      * @param String $mois       Mois sous la forme aaaamm
      *
-     * @return un tableau avec des champs de jointure entre une fiche de frais
+     * @return array : un tableau avec des champs de jointure entre une fiche de frais
      *         et la ligne d'état
      */
     public function getLesInfosFicheFrais($idVisiteur, $mois)
@@ -842,7 +842,7 @@ class PdoGsb
      * - mise en paiement - MP
      * - remboursee - RB
      * 
-     * @return tableau associatif des fiches de frais
+     * @return array : tableau associatif des fiches de frais
      */
     public function getLesFichesValidees()
     {

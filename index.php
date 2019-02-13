@@ -14,7 +14,6 @@
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
 
-require_once 'includes/fonctions.inc.php';
 require_once 'includes/fct.inc.php';
 require_once 'includes/FPDF/fpdf.php';
 require_once 'includes/class.pdf.inc.php';

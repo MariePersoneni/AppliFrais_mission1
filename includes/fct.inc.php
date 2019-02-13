@@ -17,7 +17,7 @@
 /**
  * Teste si un quelconque visiteur est connecté
  *
- * @return vrai ou faux
+ * @return boolean vrai ou faux
  */
 function estConnecte()
 {
@@ -57,7 +57,7 @@ function deconnecter()
  *
  * @param String $maDate au format  jj/mm/aaaa
  *
- * @return Date au format anglais aaaa-mm-jj
+ * @return String Date au format anglais aaaa-mm-jj
  */
 function dateFrancaisVersAnglais($maDate)
 {
@@ -71,7 +71,7 @@ function dateFrancaisVersAnglais($maDate)
  *
  * @param String $maDate au format  aaaa-mm-jj
  *
- * @return Date au format format français jj/mm/aaaa
+ * @return String Date au format format français jj/mm/aaaa
  */
 function dateAnglaisVersFrancais($maDate)
 {
@@ -79,6 +79,72 @@ function dateAnglaisVersFrancais($maDate)
     $date = $jour . '/' . $mois . '/' . $annee;
     return $date;
 }
+
+
+/**
+ * Retourne le mois au format aaaamm selon le jour dans le mois
+ *
+ * @param String $date au format  jj/mm/aaaa
+ *
+ * @return String Mois au format aaaamm
+ */
+function getMois($date)
+{
+    @list($jour, $mois, $annee) = explode('/', $date);
+    unset($jour);
+    if (strlen($mois) == 1) {
+        $mois = '0' . $mois;
+    }
+    return $annee . $mois;
+}
+
+
+/**
+ * Fonction qui retourne le mois suivant un mois passé en paramètre
+ *
+ * @param String $mois Contient le mois à utiliser
+ *
+ * @return String le mois d'après
+ */
+function getMoisSuivant($mois)
+{
+    $numAnnee = substr($mois, 0, 4);
+    $numMois = substr($mois, 4, 2);
+    if ($numMois == '12') {
+        $numMois = '01';
+        $numAnnee++;
+    } else {
+        $numMois++;
+    }
+    if (strlen($numMois) == 1) {
+        $numMois = '0' . $numMois;
+    }
+    return $numAnnee . $numMois;
+}
+
+/**
+ * Fonction qui retourne le mois précédent un mois passé en paramètre
+ *
+ * @param String $mois Contient le mois à utiliser
+ *
+ * @return String le mois d'avant
+ */
+function getMoisPrecedent($mois)
+{
+    $numAnnee = substr($mois, 0, 4);
+    $numMois = substr($mois, 4, 2);
+    if ($numMois == '01') {
+        $numMois = '12';
+        $numAnnee--;
+    } else {
+        $numMois--;
+    }
+    if (strlen($numMois) == 1) {
+        $numMois = '0' . $numMois;
+    }
+    return $numAnnee . $numMois;
+}
+
 
 /**
  * Retourne un tableau associatif qui contient les mois
@@ -346,4 +412,6 @@ function getMoisFormatTexte($mois)
     }    
     return $leMois.' '.$numAnnee;
 }
+
+
 
