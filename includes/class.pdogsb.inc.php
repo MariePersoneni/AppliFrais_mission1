@@ -401,15 +401,7 @@ class PdoGsb
         $resultat = $requetePrepare->fetch();
         if (!is_array($resultat)){
             // créé la fiche Mois+1            
-            $dateJ = date('Y-m-d');
-            $requetePrepare = PdoGsb::$monPdo->prepare(
-                'INSERT INTO fichefrais VALUES ( '
-                . ':idVisiteur, :moisSuivant, 0, 0, :dateJ, \'CR\' )'
-                );
-            $requetePrepare->bindParam(':idVisiteur', $idVisiteur, PDO::PARAM_STR);
-            $requetePrepare->bindParam(':moisSuivant', $moisSuivant, PDO::PARAM_STR);
-            $requetePrepare->bindParam(':dateJ', $dateJ, PDO::PARAM_STR);
-            $requetePrepare->execute();
+            $this->creeNouvellesLignesFrais($idVisiteur, $moisSuivant);
         }         
         // Reporte la ligne au Mois+1
         $requetePrepare = PdoGsb::$monPdo->prepare(
@@ -801,7 +793,7 @@ class PdoGsb
      * Fonction qui retourne le montant correspondant
      * au frais forfait passé en paramètre
      * @param $idFrais = id du frais forfait
-     * @return chaine qui contient le montant correspondant
+     * @return String chaine qui contient le montant correspondant
      */
     public function getMontantFraisForfait($idFrais, $table)
     {

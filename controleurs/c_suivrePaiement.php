@@ -17,32 +17,32 @@ $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 $lesFichesValidees = $pdo->getLesFichesValidees();
 $fiche = filter_input(INPUT_POST, 'hdFiche', FILTER_SANITIZE_STRING);
 $idVisiteur = substr($fiche, 6);
-$mois = substr($fiche, 0, 6);
+$leMois = substr($fiche, 0, 6);
 $visiteurASelectionner = $idVisiteur;
-$moisASelectionner = $mois;
+$moisASelectionner = $leMois;
 $ficheASelectionner = $fiche;
 
 switch ($action) {
     case 'selectionnerFiche':
         $idVisiteur = $lesFichesValidees[0]['idVisiteur'];
-        $mois = $lesFichesValidees[0]['mois'];
-        $fiche = $mois.$idVisiteur;
+        $leMois = $lesFichesValidees[0]['mois'];
+        $fiche = $leMois.$idVisiteur;
         $ficheASelectionner = $fiche;
         include 'vues/v_listeFicheValidee.php';
         break;
     case 'voirFicheFrais':
         $fiche = filter_input(INPUT_POST, 'lstFichesValidees', FILTER_SANITIZE_STRING);
         $idVisiteur = substr($fiche, 6);
-        $mois = substr($fiche, 0, 6);
+        $leMois = substr($fiche, 0, 6);
         $visiteurASelectionner = $idVisiteur;
-        $moisASelectionner = $mois;
+        $moisASelectionner = $leMois;
         $ficheASelectionner = $fiche;
-        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
-        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
-        $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $mois);
-        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
-        $numAnnee = substr($mois, 0, 4);
-        $numMois = substr($mois, 4, 2);
+        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
+        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
+        $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $leMois);
+        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
+        $numAnnee = substr($leMois, 0, 4);
+        $numMois = substr($leMois, 4, 2);
         $etatFiche = $lesInfosFicheFrais['idEtat'];
         $libEtat = $lesInfosFicheFrais['libEtat'];
         $montantValide = $lesInfosFicheFrais['montantValide'];
@@ -55,13 +55,13 @@ switch ($action) {
         break;
     case 'MAJfiche':
         $bouton = filter_input(INPUT_GET, 'bouton', FILTER_SANITIZE_STRING);
-        $pdo->majEtatFicheFrais($idVisiteur, $mois, $bouton);
-        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
-        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
-        $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $mois);
-        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $mois);
-        $numAnnee = substr($mois, 0, 4);
-        $numMois = substr($mois, 4, 2);
+        $pdo->majEtatFicheFrais($idVisiteur, $leMois, $bouton);
+        $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
+        $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
+        $lesFraisKm = $pdo->getLesFraisKm($idVisiteur, $leMois);
+        $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
+        $numAnnee = substr($leMois, 0, 4);
+        $numMois = substr($leMois, 4, 2);
         $etatFiche = $lesInfosFicheFrais['idEtat'];
         $libEtat = $lesInfosFicheFrais['libEtat'];
         $montantValide = $lesInfosFicheFrais['montantValide'];
