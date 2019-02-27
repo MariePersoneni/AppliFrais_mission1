@@ -13,8 +13,6 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-
-$session = isset($_SESSION['profil']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,7 +26,7 @@ $session = isset($_SESSION['profil']);
         <link href="./styles/bootstrap/bootstrap.css" rel="stylesheet">
         <link href="./styles/style.css" rel="stylesheet">
         <?php 
-        if ($session && $_SESSION['profil'] == 'comptable') {
+        if ($estConnecte && $_SESSION['profil'] == 'comptable') {
         ?>
         <link href="./styles/bootstrap/bootstrap_comptable.css" rel="stylesheet">
         <?php } ?>

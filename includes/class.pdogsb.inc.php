@@ -356,7 +356,8 @@ class PdoGsb
         $requetePrepare->execute();
         $resultat = $requetePrepare->fetch();
         $libelle = 'REFUSE ' . $resultat['libelle'];
-        // vérifie que le nouveau libellé ne dépasse pas la taille max de 100c
+        // vérifie que le nouveau libellé ne dépasse pas la taille maximum
+        // de 100 caract�res
         $longueurLibelle = strlen($libelle);
         if ($longueurLibelle > 100){
             $libelle = substr($libelle, 0, 100);
@@ -411,8 +412,7 @@ class PdoGsb
             );
         $requetePrepare->bindParam(':moisSuivant', $moisSuivant, PDO::PARAM_STR);
         $requetePrepare->bindParam(':idFrais', $idFrais, PDO::PARAM_INT);        
-        $requetePrepare->execute();
-        
+        $requetePrepare->execute();        
     }
         
     

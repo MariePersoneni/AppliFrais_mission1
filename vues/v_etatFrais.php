@@ -21,7 +21,9 @@
             	action="index.php?uc=etatFrais&action=imprimerFiche">
     		<div>Fiche de frais du mois 
        		 <?php echo $numMois . '-' . $numAnnee ?> :              	
-        		<button id="icon-print" type="submit"><span class="glyphicon glyphicon-print"></span></button>
+        		<button id="icon-print" type="submit">
+        			<span class="glyphicon glyphicon-print"></span>
+        		</button>
         		<input 	type="hidden" id="hdMois" name="hdMois" 
         				value="<?php echo $leMois ?>">
     		</form>
@@ -113,7 +115,9 @@ if ($_SESSION['profil'] == 'comptable') {
             			action="index.php?uc=suivrePaiement&action=MAJfiche&bouton=MP">
             		<input type="hidden" id="hdFiche" name="hdFiche" 
             		value="<?php echo $fiche ?>">	
-            		<button class="btn btn-success" type="submit">Mettre en paiement</button>
+            		<button class="btn btn-success" type="submit">
+            			Mettre en paiement
+        			</button>
             	</form>
             <?php 
             } elseif ($etatFiche == 'MP') {

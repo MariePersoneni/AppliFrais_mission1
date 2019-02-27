@@ -6,11 +6,11 @@
  *
  * @category  PPE
  * @package   GSB
- * @author    PERSONENI Marie <mpersoneni@nomentreprise.com>
- * @copyright NomEntreprise
- * @license   nomEtreprise
- * @version   GIT: <0>
- * @link      http://www.siteEntreprise
+ * @author    PERSONENI Marie <mpersoneni@emds-gil.cned.fr>
+ * @copyright EMDS-GIL.CNED.FR
+ * @license   EMDS-GIL.CNED.FR
+ * @version   GIT: 2.19.1.
+ * @link      http://www.emds-gil.cned.fr
  */
 
 //Script qui cloture toutes les fiche du mois dernier
@@ -41,7 +41,8 @@ switch ($action) {
         include 'vues/v_listeVisiteurs.php';
         break;
     case 'voirFicheFrais':
-        $idVisiteur = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
+        $idVisiteur = filter_input(INPUT_POST, 'lstVisiteurs',
+            FILTER_SANITIZE_STRING);
         $mois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
         $visiteurASelectionner = $idVisiteur;
         $moisASelectionner = $mois;
@@ -61,8 +62,10 @@ switch ($action) {
         include 'vues/v_validerFicheFrais.php';
         break;
     case 'validerMajFraisForfait':        
-        $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
-        $lesFraisKm = filter_input(INPUT_POST, 'lesFraisKm', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+        $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT,
+            FILTER_FORCE_ARRAY);
+        $lesFraisKm = filter_input(INPUT_POST, 'lesFraisKm', FILTER_DEFAULT,
+            FILTER_FORCE_ARRAY);
         if (lesQteFraisValides($lesFrais) && lesQteFraisValides($lesFraisKm)) {
             $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais);
             $pdo->majFraisKm($idVisiteur, $mois, $lesFraisKm);
@@ -82,7 +85,8 @@ switch ($action) {
         }
         break;
     case 'majNbJustificatifs': 
-        $nbJustificatifs = filter_input(INPUT_POST, 'nbJustificatifs',FILTER_SANITIZE_NUMBER_INT);
+        $nbJustificatifs = filter_input(INPUT_POST, 'nbJustificatifs',
+            FILTER_SANITIZE_NUMBER_INT);
         if (estEntierPositif($nbJustificatifs)) {
             $pdo->majNbJustificatifs($idVisiteur, $mois, $nbJustificatifs);
             $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
