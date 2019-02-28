@@ -173,8 +173,6 @@ function getLesMois()
     return $lesMois;
 }
 
-/* gestion des erreurs */
-
 /**
  * Indique si une valeur est un entier positif ou nul
  *
