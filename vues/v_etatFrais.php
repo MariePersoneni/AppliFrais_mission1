@@ -136,3 +136,4 @@ if ($_SESSION['profil'] == 'comptable') {
     <?php 
 }
 ?>
+<hr>
