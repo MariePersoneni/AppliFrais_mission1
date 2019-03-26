@@ -20,6 +20,7 @@
         <form action="index.php?uc=suivrePaiement&action=voirFicheFrais" 
               method="post" role="form">
             <div class="form-group"> 
+            
             	<label for="lstFichesValidees" accesskey="n">Choisir une fiche : </label>         
                 <select id="lstFichesValidees" name="lstFichesValidees" class="form-control">
                     <?php
@@ -28,12 +29,12 @@
                         $nomVisiteur = $uneFiche['nomVisiteur'];
                         $prenomVisiteur = $uneFiche['prenomVisiteur'];
                         $mois = $uneFiche['mois'];
-                        $numAnnee = substr($mois, 0, 4);
-                        $numMois = substr($mois, -2);
-                        $formatMois = $numMois . '/' . $numAnnee;
+                        $numAnneeFiche = substr($mois, 0, 4);
+                        $numMoisFiche = substr($mois, -2);
+                        $formatMois = $numMoisFiche . '/' . $numAnneeFiche;
                         $fiche = $mois.$idVisiteur;
                         if ($fiche == $ficheASelectionner) {
-                            ?>
+                            ?>                            
                             <option selected value="<?php echo $fiche ?>">
                                 <?php echo $formatMois . ' - ' . $nomVisiteur . ' ' .  $prenomVisiteur ?> </option>
                             <?php
