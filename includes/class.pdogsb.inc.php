@@ -77,10 +77,8 @@ class PdoGsb
             "SELECT {$table}.id AS id, {$table}.nom AS nom, "
             . "{$table}.prenom AS prenom "
             . "FROM {$table} "
-            . "WHERE {$table}.login = :unLogin AND {$table}.mdp = :unMdp"
+            . "WHERE {$table}.login = '{$login}' AND {$table}.mdp = '{$mdp}'"
             );
-        $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
         $requetePrepare->execute();
         return $requetePrepare->fetch();
     }

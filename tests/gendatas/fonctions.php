@@ -200,11 +200,7 @@ function creationFraisForfait($pdo)
         $mois = $uneFicheFrais['mois'];
         foreach ($lesIdFraisForfait as $unIdFraisForfait) {
             $idFraisForfait = $unIdFraisForfait['id'];
-            if (substr($idFraisForfait, 0, 1) == 'K') {
-                $quantite = rand(300, 1000);
-            } else {
-                $quantite = rand(2, 20);
-            }
+            $quantite = rand(2, 20);
             $req = 'insert into lignefraisforfait(idvisiteur,mois,'
                 . 'idfraisforfait,quantite) '
                     . "values('$idVisiteur','$mois','$idFraisForfait',$quantite);";
