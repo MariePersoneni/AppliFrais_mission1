@@ -1,7 +1,18 @@
 <?php
+/**
+ * Classe de génération de PDF
+ *
+ * PHP Version 7.0.3
+ *
+ * @category  PPE
+ * @package   GSB
+ * @author    PERSONENI Marie <marie.c.personeni@gmail.com>
+ * @link      http://mariepersoneni.yn.fr/2019/03/22/appli-frais/
+ */
+
 class PDF extends FPDF
 {
-    // d�finition de constantes pour les marges du pdf
+    // définition de constantes pour les marges du pdf
     const POS_G = 30;    
     const POS_M = 95;
     const POS_D = 140;

@@ -1,16 +1,13 @@
 <?php
 /**
- * Gestion des frais
+ * Validation des fiches de frais
  *
  * PHP Version 7.0.3
  *
  * @category  PPE
  * @package   GSB
- * @author    PERSONENI Marie <mpersoneni@emds-gil.cned.fr>
- * @copyright EMDS-GIL.CNED.FR
- * @license   EMDS-GIL.CNED.FR
- * @version   GIT: 2.19.1.
- * @link      http://www.emds-gil.cned.fr
+ * @author    PERSONENI Marie <marie.c.personeni@gmail.com>
+ * @link      http://mariepersoneni.yn.fr/2019/03/22/appli-frais/
  */
 
 //Script qui cloture toutes les fiche du mois dernier

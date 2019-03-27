@@ -1,5 +1,15 @@
-
 <?php
+/**
+ * Définition du modèle d'impression d'une fiche PDF
+ *
+ * PHP Version 7.0.3
+ *
+ * @category  PPE
+ * @package   GSB
+ * @author    PERSONENI Marie <marie.c.personeni@gmail.com>
+ * @link      http://mariepersoneni.yn.fr/2019/03/22/appli-frais/
+ */
+
 $titre = 'REMBOURSEMENT DE FRAIS ENGAGES';
 $pdf = new PDF();
 $pdf->AddPage();

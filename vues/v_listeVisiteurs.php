@@ -1,18 +1,15 @@
 <?php
 /**
- * Vue Liste des mois
+ * Vue liste des visiteurs
  *
- * PHP Version 7
+ * PHP Version 7.0.3
  *
  * @category  PPE
  * @package   GSB
- * @author    Réseau CERTA <contact@reseaucerta.org>
- * @author    José GIL <jgil@ac-nice.fr>
- * @copyright 2017 Réseau CERTA
- * @license   Réseau CERTA
- * @version   GIT: <0>
- * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
+ * @author    PERSONENI Marie <marie.c.personeni@gmail.com>
+ * @link      http://mariepersoneni.yn.fr/2019/03/22/appli-frais/
  */
+
 ?>
 <h2>Valider la fiche de frais</h2>
 <div class="row">
