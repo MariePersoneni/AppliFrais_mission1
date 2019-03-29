@@ -26,6 +26,8 @@
         		</button>
         		<input 	type="hidden" id="hdMois" name="hdMois" 
         				value="<?php echo $leMois ?>">
+				<input 	type="hidden" id="hdVisiteur" name="hdVisiteur" 
+				value="<?php echo $idVisiteur ?>">
     		</form>
         </div>
     </div>

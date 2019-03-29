@@ -45,6 +45,7 @@ case 'voirEtatFrais':
     break;
 case 'imprimerFiche':
     $leMois = filter_input(INPUT_POST, 'hdMois', FILTER_SANITIZE_STRING);
+    $idVisiteur = filter_input(INPUT_POST,'hdVisiteur', FILTER_SANITIZE_STRING);
     $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
     $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
     $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
@@ -52,7 +53,9 @@ case 'imprimerFiche':
     $lesFraisForfaitCalcules = $pdo->getLesFraisForfaitCalcules($lesFraisForfait, 'fraisforfait');
     $lesFraisKmCalcules = $pdo->getLesFraisForfaitCalcules($lesFraisKm, 'fraiskilometrique');
     $idFicheFrais = $idVisiteur .'/'.$leMois;
-    $nomVisiteur = $_SESSION['prenom'].' '.$_SESSION['nom'];
+    $lesInfosVisiteur = $pdo->getNomUtilisateur($idVisiteur, 'visiteur');
+    $nomVisiteur = $lesInfosVisiteur['nom'];
+    $prenomVisiteur = $lesInfosVisiteur['prenom'];
     $moisAffiche = getMoisFormatTexte($leMois);
     $existeFraisForfait = existeFraisForfait($lesFraisForfaitCalcules);
     $existeFraisKm = existeFraisForfait($lesFraisKmCalcules);
@@ -64,7 +67,7 @@ case 'imprimerFiche':
         $dateValidation = $lesInfosFicheFrais['datevalidation'];
         $dateValidation = dateAnglaisVersFrancais($dateValidation);
         $dateValidation = getDateFormatTexte($dateValidation);
-        $lesInfosComptable = $pdo->getInfosComptable($idComptable, 'comptable');
+        $lesInfosComptable = $pdo->getNomUtilisateur($idComptable, 'comptable');
         $prenomComptable = $lesInfosComptable['prenom'];
         $nomComptable = $lesInfosComptable['nom'];
     }

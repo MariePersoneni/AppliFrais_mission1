@@ -84,22 +84,21 @@ class PdoGsb
     }
     
     /**
-     * Retourne les informations d'un comptable 
+     * Retourne les informations d'un utilisateur 
      *
-     * @param String $login     Login de l'utilisateur
-     * @param String $table     Table qui contient l'enregistrement
-     *
+     * @param String $idUtilisateur     id de l'utilisateur
+     * @param String $table             Table qui contient l'enregistrement
+     * 
      * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
      */
-    public function getInfosComptable($idComptable, $table)
+    public function getNomUtilisateur($idUtilisateur, $table)
     {
         $requetePrepare = PdoGsb::$monPdo->prepare(
-            "SELECT {$table}.id AS id, {$table}.nom AS nom, "
-            . "{$table}.prenom AS prenom "
-            . "FROM {$table} "
-            . "WHERE {$table}.id = :idComptable"
+            "SELECT $table.id AS id, $table.nom AS nom, "
+            . "$table.prenom AS prenom "
+            . "FROM $table "
+            . "WHERE $table.id = '$idUtilisateur'"
             );
-        $requetePrepare->bindParam(':idComptable', $idComptable, PDO::PARAM_STR);
         $requetePrepare->execute();
         return $requetePrepare->fetch();
     }

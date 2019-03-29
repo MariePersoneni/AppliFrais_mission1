@@ -22,23 +22,23 @@
                 <select id="lstFichesValidees" name="lstFichesValidees" class="form-control">
                     <?php
                     foreach ($lesFichesValidees as $uneFiche) {
-                        $idVisiteur = $uneFiche['idVisiteur'];
-                        $nomVisiteur = $uneFiche['nomVisiteur'];
-                        $prenomVisiteur = $uneFiche['prenomVisiteur'];
+                        $idVisiteurFiche = $uneFiche['idVisiteur'];
+                        $nomVisiteurFiche = $uneFiche['nomVisiteur'];
+                        $prenomVisiteurFiche = $uneFiche['prenomVisiteur'];
                         $mois = $uneFiche['mois'];
                         $numAnneeFiche = substr($mois, 0, 4);
                         $numMoisFiche = substr($mois, -2);
                         $formatMois = $numMoisFiche . '/' . $numAnneeFiche;
-                        $fiche = $mois.$idVisiteur;
+                        $fiche = $mois.$idVisiteurFiche;
                         if ($fiche == $ficheASelectionner) {
                             ?>                            
                             <option selected value="<?php echo $fiche ?>">
-                                <?php echo $formatMois . ' - ' . $nomVisiteur . ' ' .  $prenomVisiteur ?> </option>
+                                <?php echo $formatMois . ' - ' . $nomVisiteurFiche . ' ' .  $prenomVisiteurFiche ?> </option>
                             <?php
                         } else {
                             ?>
                             <option value="<?php echo $fiche ?>">
-                                <?php echo $formatMois . ' - ' . $nomVisiteur . ' ' .  $prenomVisiteur ?> </option>
+                                <?php echo $formatMois . ' - ' . $nomVisiteurFiche . ' ' .  $prenomVisiteurFiche ?> </option>
                             <?php
                         }
                     }

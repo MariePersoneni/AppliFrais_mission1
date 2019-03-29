@@ -257,6 +257,25 @@ function lesQteFraisValides($lesFrais)
     return estTableauEntiers($lesFrais);
 }
 
+
+/**
+ * Fonction qui retourne vrai si le tableau de frais contient des
+ * quantit√©s.
+ *
+ * @param array $lesFrais
+ * @return boolean
+ */
+function existeFraisForfait($lesFrais)
+{
+    $existe = false;
+    foreach ($lesFrais as $unFrais) {
+        if ($unFrais['quantite'] <> 0) {
+            $existe = true;
+        }
+    }
+    return $existe;
+}
+
 /**
  * V√©rifie la validit√© des trois arguments : la date, le libell√© du frais
  * et le montant
@@ -349,11 +368,11 @@ function filtrerChainePourBD($chaine)
  */
 function getDateFormatTexte($date)
 {
-    // rÈcupÈration du format AAAAMM de la date
+    // r√©cup√©ration du format AAAAMM de la date
     $mois = getMois($date);
     // transformation du mois en texte
     $moisTexte = getMoisFormatTexte($mois);
-    // construction de la date entiËre en format texte
+    // construction de la date enti√®re en format texte
     $jour =  substr($date, 0, 2);
     $dateTexte = $jour . ' ' . $moisTexte;
     return $dateTexte;
@@ -375,7 +394,7 @@ function getMoisFormatTexte($mois)
             $leMois = 'Janvier';
             break;
         case '02' :
-            $leMois = 'FÈvrier';
+            $leMois = 'F√©vrier';
             break;
         case '03' :
             $leMois = 'Mars';
@@ -393,7 +412,7 @@ function getMoisFormatTexte($mois)
             $leMois = 'Juillet';
             break;
         case '08' :
-            $leMois = 'Ao˚t';
+            $leMois = 'Ao√ªt';
             break;
         case '09' :
             $leMois = 'Septembre';
@@ -405,7 +424,7 @@ function getMoisFormatTexte($mois)
             $leMois = 'Novembre';
             break;
         case '12' :
-            $leMois = 'DÈcembre';
+            $leMois = 'D√©cembre';
             break;
     }    
     return $leMois.' '.$numAnnee;
