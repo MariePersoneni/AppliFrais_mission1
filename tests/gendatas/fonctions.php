@@ -24,7 +24,7 @@
  */
 function getLesVisiteurs($pdo)
 {
-    $req = 'select * from visiteur';
+    $req = "select * from visiteur";
     $res = $pdo->query($req);
     $lesLignes = $res->fetchAll();
     return $lesLignes;
@@ -40,7 +40,7 @@ function getLesVisiteurs($pdo)
  */
 function getNbTable($pdo, $table)
 {
-    $req = 'select count(*) from ' . $table;
+    $req = "select count(*) from " . $table;
     $res = $pdo->query($req);
     $nbLignes = $res->fetch();
     return $nbLignes[0];
@@ -55,7 +55,7 @@ function getNbTable($pdo, $table)
  */
 function getLesFichesFrais($pdo)
 {
-    $req = 'select * from fichefrais';
+    $req = "select * from fichefrais";
     $res = $pdo->query($req);
     $lesLignes = $res->fetchAll();
     return $lesLignes;
@@ -70,9 +70,9 @@ function getLesFichesFrais($pdo)
  */
 function getLesIdFraisForfait($pdo)
 {
-    $req = 'select fraisforfait.id as id '
-        . 'from fraisforfait '
-            . 'order by fraisforfait.id';
+    $req = "select fraisforfait.id as id "
+        . "from fraisforfait "
+            . "order by fraisforfait.id";
             $res = $pdo->query($req);
             $lesLignes = $res->fetchAll();
             return $lesLignes;
@@ -85,9 +85,9 @@ function getLesIdFraisForfait($pdo)
  */
 function getLesIdFraisKm($pdo)
 {
-    $req = 'SELECT fraiskilometrique.id as id '
-        . 'FROM fraiskilometrique '
-            . 'ORDER BY fraiskilometrique.id';
+    $req = "SELECT fraiskilometrique.id as id "
+        . "FROM fraiskilometrique "
+            . "ORDER BY fraiskilometrique.id";
             $res = $pdo->query($req);
             $lesLignes = $res->fetchAll();
             return $lesLignes;
@@ -173,13 +173,13 @@ function creationFichesFrais($pdo)
             $numMois = substr($moisModif, 4, 2);
             $dateModif = $numAnnee . '-' . $numMois . '-' . rand(1, 8);
             $nbJustificatifs = rand(0, 12);
-            $req = 'insert into fichefrais(idvisiteur,mois,nbjustificatifs,'
-                . 'montantvalide,datemodif,idetat) '
+            $req = "insert into fichefrais(idvisiteur,mois,nbjustificatifs,"
+                    . "montantvalide,datemodif,idetat) "
                     . "values ('$idVisiteur','$moisCourant',$nbJustificatifs,"
                     . "0,'$dateModif','$etat');";
-                    $pdo->exec($req);
-                    $moisCourant = getMoisPrecedent($moisCourant);
-                    $n++;
+            $pdo->exec($req);
+            $moisCourant = getMoisPrecedent($moisCourant);
+            $n++;
         }
     }
 }
@@ -201,10 +201,10 @@ function creationFraisForfait($pdo)
         foreach ($lesIdFraisForfait as $unIdFraisForfait) {
             $idFraisForfait = $unIdFraisForfait['id'];
             $quantite = rand(2, 20);
-            $req = 'insert into lignefraisforfait(idvisiteur,mois,'
-                . 'idfraisforfait,quantite) '
-                    . "values('$idVisiteur','$mois','$idFraisForfait',$quantite);";
-                    $pdo->exec($req);
+            $req = "insert into lignefraisforfait(idvisiteur,mois,"
+                . "idfraisforfait,quantite) "
+                . "values('$idVisiteur','$mois','$idFraisForfait',$quantite);";
+            $pdo->exec($req);
         }
     }
 }
@@ -230,20 +230,20 @@ function creationFraisKm($pdo)
             } else {
                 $quantite = rand(2, 20);
             }
-            $req = 'insert into lignefraisforfait(idvisiteur,mois,'
-                . 'idfraisKm,quantite) '
-                    . "values('$idVisiteur','$mois','$idFraisKm',$quantite);";
-                    $pdo->exec($req);
+            $req = "insert into lignefraisforfait(idvisiteur,mois,"
+                . "idfraisKm,quantite) "
+                . "values('$idVisiteur','$mois','$idFraisKm',$quantite);";
+                $pdo->exec($req);
         }
     }
 }
 
 function razFrais($pdo){
-    $req = 'delete from fichefrais';
+    $req = "delete from fichefrais";
     $res = $pdo->query($req);
-    $req = 'delete from lignefraisforfait';
+    $req = "delete from lignefraisforfait";
     $res = $pdo->query($req);
-    $req = 'delete from lignefraishorsforfait';
+    $req = "delete from lignefraishorsforfait";
     $res = $pdo->query($req);
 }
 
@@ -314,7 +314,7 @@ function getDesFraisHorsForfait()
  */
 function updateMdpVisiteur($pdo)
 {
-    $req = 'select * from visiteur';
+    $req = "select * from visiteur";
     $res = $pdo->query($req);
     $lesLignes = $res->fetchAll();
     $lettres = 'azertyuiopqsdfghjkmwxcvbn123456789';
@@ -360,11 +360,11 @@ function creationFraisHorsForfait($pdo)
                 $hasardJour = '0' . $hasardJour;
             }
             $hasardMois = $numAnnee . '-' . $numMois . '-' . $hasardJour;
-            $req = 'insert into lignefraishorsforfait(idvisiteur,mois,libelle,'
-                . 'date,montant) '
-                    . "values('$idVisiteur','$mois','$lib','$hasardMois',"
-                    . "$hasardMontant);";
-                    $pdo->exec($req);
+            $req = "insert into lignefraishorsforfait(idvisiteur,mois,libelle,"
+                . "date,montant) "
+                . "values('$idVisiteur','$mois','$lib','$hasardMois',"
+                . "$hasardMontant);";
+                $pdo->exec($req);
         }
     }
 }
@@ -400,31 +400,38 @@ function majFicheFrais($pdo)
     foreach ($lesFichesFrais as $uneFicheFrais) {
         $idVisiteur = $uneFicheFrais['idvisiteur'];
         $mois = $uneFicheFrais['mois'];
-        $req = 'select sum(montant) as cumul from lignefraishorsforfait '
+        $req = "select sum(montant) as cumul from lignefraishorsforfait "
             . "where lignefraishorsforfait.idvisiteur = '$idVisiteur' "
             . "and lignefraishorsforfait.mois = '$mois' ";
             $res = $pdo->query($req);
             $ligne = $res->fetch();
-            $cumulMontantHF = $ligne['cumul'];
-            $req = 'select sum(lignefraisforfait.quantite * fraisforfait.montant) '
-                . 'as cumul '
-                    . 'from lignefraisforfait, fraisforfait '
-                        . 'where lignefraisforfait.idfraisforfait = fraisforfait.id '
-                            . "and lignefraisforfait.idvisiteur = '$idVisiteur' "
-                            . "and lignefraisforfait.mois = '$mois' ";
-                            $res = $pdo->query($req);
-                            $ligne = $res->fetch();
-                            $cumulMontantForfait = $ligne['cumul'];
-                            $montantEngage = $cumulMontantHF + $cumulMontantForfait;
-                            $etat = $uneFicheFrais['idetat'];
-                            if ($etat == 'CR') {
-                                $montantValide = 0;
-                            } else {
-                                $montantValide = $montantEngage * rand(80, 100) / 100;
-                            }
-                            $req = "update fichefrais set montantvalide = $montantValide "
-                            . "where idvisiteur = '$idVisiteur' and mois = '$mois'";
-                            $pdo->exec($req);
+            $cumulMontantHF = $ligne['cumul'];            
+            $req = "SELECT sum(reqforfait.cumulforfait + reqkm.cumulkm) as 'cumul' from ( "
+                . "select sum(lignefraisforfait.quantite * fraisforfait.montant) as 'cumulforfait' "
+                . "from lignefraisforfait, fraisforfait "
+                . "where lignefraisforfait.idfraisforfait = fraisforfait.id "
+                . "and lignefraisforfait.idvisiteur = '$idVisiteur' "
+                . "and lignefraisforfait.mois = '$mois' "
+                . ") as reqforfait,( "
+                    . "select sum(lignefraisforfait.quantite * fraiskilometrique.montant) as 'cumulkm' "
+                    . "from lignefraisforfait, fraiskilometrique "
+                    . "where lignefraisforfait.idfraiskm = fraiskilometrique.id "
+                    . "and lignefraisforfait.idvisiteur = '$idVisiteur' "
+                    . "and lignefraisforfait.mois = '$mois' "
+                    .") as reqkm";
+                $res = $pdo->query($req);
+                $ligne = $res->fetch();
+                $cumulMontantForfait = $ligne['cumul'];
+                $montantEngage = $cumulMontantHF + $cumulMontantForfait;
+                $etat = $uneFicheFrais['idetat'];
+                if ($etat == 'CR') {
+                    $montantValide = 0;
+                } else {
+                    $montantValide = $montantEngage;
+                }
+                $req = "update fichefrais set montantvalide = $montantValide "
+                    . "where idvisiteur = '$idVisiteur' and mois = '$mois'";
+                $pdo->exec($req);
     }
 }
 
