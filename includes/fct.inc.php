@@ -288,7 +288,7 @@ function valideInfosFrais($dateFrais, $libelle, $montant)
         ajouterErreur('Le champ description ne peut pas être vide');
     }
     if ($montant == '') {
-        ajouterErreur('Le champ montant ne peut pas être vide');
+        ajouterErreur('Le champ montant ne peut pas être vide et les nombres décimaux doivent utiliser le point et non la virgule (ex : 15.35)');
     } elseif (!is_numeric($montant)) {
         ajouterErreur('Le champ montant doit être numérique');
     }

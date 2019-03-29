@@ -31,6 +31,7 @@ case 'validerMajFraisForfait':
     if (lesQteFraisValides($lesFrais) && lesQteFraisValides($lesFraisKm)) {
         $pdo->majFraisForfait($idVisiteur, $mois, $lesFrais);
         $pdo->majFraisKm($idVisiteur, $mois, $lesFraisKm);
+        include 'vues/v_modificationEffectuee.php';
     } else {
         ajouterErreur('Les valeurs des frais doivent être numériques');
         include 'vues/v_erreurs.php';

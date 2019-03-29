@@ -23,17 +23,17 @@ $pdf->Cell(40, 6, 'Visiteur', 0, 0);
 $pdf->SetX(PDF::POS_M);
 $pdf->Cell(40, 6, $idFicheFrais, 0, 0);
 $pdf->SetX(PDF::POS_D);
-$pdf->Cell(40, 6, $nomVisiteur, 0, 1, 'R');
+$pdf->Cell(40, 6,utf8_decode( $prenomVisiteur . ' ' . $nomVisiteur), 0, 1, 'R');
 $pdf->SetX(PDF::POS_G);
 $pdf->Cell(40, 6, 'Mois', 0, 0);
 $pdf->SetX(PDF::POS_M);
-$pdf->Cell(40, 6, $moisAffiche, 0, 1);
+$pdf->Cell(40, 6, utf8_decode($moisAffiche), 0, 1);
 $pdf->ln(5);
 // Tableau de frais forfait
 if($existeFraisForfait) {
     $colonnesFraisForfait = array(
         'Frais forfaitaires', 
-        'Quantité',
+         utf8_decode('QuantitÃ©'),
         'Montant unitaire',
         'Total'
     );
@@ -44,12 +44,12 @@ if($existeFraisForfait) {
 if($existeFraisKm) {
     $pdf->SetFont('Times', 'BI', 11);
     $pdf->SetTextColor(31, 72, 118);
-    $w = $pdf->GetStringWidth('Frais kilométriques');
+    $w = $pdf->GetStringWidth(utf8_decode('Frais kilomÃ©triques'));
     $pdf->SetX(0);
-    $pdf->Cell(PDF::LARGEUR_PAGE, 6, 'Frais kilométriques', 0, 1, 'C');
+    $pdf->Cell(PDF::LARGEUR_PAGE, 6, utf8_decode('Frais kilomÃ©triques'), 0, 1, 'C');
     $colonnesFraisKm = array(
-        'Type de véhicule',
-        'Kilomètres parcourus',
+         utf8_decode('Type de vÃ©hicule'),
+         utf8_decode('KilomÃ©tres parcourus'),
         'Montant unitaire',
         'Total'
     );
@@ -60,7 +60,7 @@ if($existeFraisKm) {
 if (!empty($lesFraisHorsForfait)) {
     $colonnesFraisHorsForfait = array(
         'Date',
-        'Libellé',
+         utf8_decode('LibellÃ©'),
         'Montant'
     );
     $pdf->SetFont('Times', 'BI', 11);
@@ -78,15 +78,15 @@ if ($pdf->PageNo() == 1) {
 }
 // Affichage infos comptable
 if ($idComptable <> '') {
-    // récupération de la position verticale du curseur
+    // rÃ©cupÃ©ration de la position verticale du curseur
     $posY = $pdf->GetY();
     if ($posY > PDF::PIED_PAGE) {
         $pdf->AddPage();
     }
-    // positionnement à 1,5 cm du bas
+    // positionnement Ã  1,5 cm du bas
     $pdf->SetXY(PDF::POS_D, PDF::PIED_PAGE);
     $pdf->SetFont('Times', '', 11);
-    $pdf->Cell(0,8, 'Fait à Paris, le ' . $dateValidation,0,2);
+    $pdf->Cell(0,8, utf8_decode('Fait Ã  Paris, le ') . $dateValidation,0,2);
     $pdf->Cell( 0,8, 'Vu l\'agent comptable ' . strtoupper($nomComptable) 
                 . ' ' . $prenomComptable);
 }
