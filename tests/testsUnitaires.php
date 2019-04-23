@@ -5,7 +5,7 @@
  * PHP Version 7.0.3
  *
  * @category  PPE
- * @package   GSB
+ * @package   GSB\tests
  * @author    PERSONENI Marie <marie.c.personeni@gmail.com>
  * @link      http://mariepersoneni.yn.fr/2019/03/22/appli-frais/
  */
@@ -15,7 +15,7 @@ use phpDocumentor\Reflection\Types\Boolean;
 
 require '../includes/fct.inc.php';
 
-echo utf8_encode('Tests des fonctions présentes dans includes/ftc.inc.php <br>');
+echo utf8_encode('Tests des fonctions prÃ©sentes dans includes/ftc.inc.php <br>');
 
 $lesTests = array() ;
 $nbTestOk = 0;
@@ -84,13 +84,12 @@ testeLaFonction('filtrerChainePourBD',
 testeLaFonction('getDateFormatTexte', 
     getDateFormatTexte("28/01/2019") == "28 Janvier 2019");
 
-// fonction getLesMois : retourne tous les mois jusqu'a 1 an en arrière
+// fonction getLesMois : retourne tous les mois jusqu'a 1 an en arriÃ¨re
 $lesMoisAttendus = '201902,201901,201812,201811,201810,201809,'
     . '201808,201807,201806,201805,201804,201803,';
 $lesMoisComplets = getLesMois();
 $lesMoisRecuperes = '';
 foreach ($lesMoisComplets as $unMois){
-    //xdebug_break();
     $lesMoisRecuperes .= $unMois['mois'] . ',';
 }
 testeLaFonction('getLesMois', 
@@ -98,17 +97,17 @@ testeLaFonction('getLesMois',
 
 testeLaFonction('getMoisFormatTexte', 
        getMoisFormatTexte('201901')    == 'Janvier 2019'
-    && getMoisFormatTexte('201902') == 'Février 2019'
+    && getMoisFormatTexte('201902') == 'FÃ©vrier 2019'
     && getMoisFormatTexte('201903') == 'Mars 2019'
     && getMoisFormatTexte('201904') == 'Avril 2019'
     && getMoisFormatTexte('201905') == 'Mai 2019'
     && getMoisFormatTexte('201906') == 'Juin 2019'
     && getMoisFormatTexte('201907') == 'Juillet 2019'
-    && getMoisFormatTexte('201908') == 'Août 2019'
+    && getMoisFormatTexte('201908') == 'AoÃ»t 2019'
     && getMoisFormatTexte('201909') == 'Septembre 2019'
     && getMoisFormatTexte('201910') == 'Octobre 2019'
     && getMoisFormatTexte('201911') == 'Novembre 2019'
-    && getMoisFormatTexte('201912') == 'Décembre 2019'
+    && getMoisFormatTexte('201912') == 'DÃ©cembre 2019'
     );
 
 
@@ -116,7 +115,7 @@ foreach ($lesTests as $unTest){
     echo 'Test fonction ' . $unTest['fonction'] . ' : ' . 
     $unTest['resultat'] . '<br>';
 }
-echo utf8_encode('<br>Nombre de tests réussis : ' . $nbTestOk . '<br>'
-    . 'Nombre de tests échoués : ' . $nbTestErreur);
+echo utf8_encode('<br>Nombre de tests rÃ©ussis : ' . $nbTestOk . '<br>'
+    . 'Nombre de tests Ã©chouÃ©s : ' . $nbTestErreur);
 
 

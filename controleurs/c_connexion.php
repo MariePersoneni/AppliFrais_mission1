@@ -5,7 +5,7 @@
  * PHP Version 7
  *
  * @category  PPE
- * @package   GSB
+ * @package   GSB\Controleurs
  * @author    Réseau CERTA <contact@reseaucerta.org>
  * @author    José GIL <jgil@ac-nice.fr>
  * @copyright 2017 Réseau CERTA

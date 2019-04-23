@@ -5,11 +5,10 @@
  * PHP Version 7.0.3
  *
  * @category  PPE
- * @package   GSB
+ * @package   GSB\Controleurs
  * @author    PERSONENI Marie <marie.c.personeni@gmail.com>
  * @link      http://mariepersoneni.yn.fr/2019/03/22/appli-frais/
  */
-
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 $lesFichesValidees = $pdo->getLesFichesValidees();
 $fiche = filter_input(INPUT_POST, 'hdFiche', FILTER_SANITIZE_STRING);

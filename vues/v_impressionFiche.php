@@ -5,7 +5,7 @@
  * PHP Version 7.0.3
  *
  * @category  PPE
- * @package   GSB
+ * @package   GSB\vues
  * @author    PERSONENI Marie <marie.c.personeni@gmail.com>
  * @link      http://mariepersoneni.yn.fr/2019/03/22/appli-frais/
  */

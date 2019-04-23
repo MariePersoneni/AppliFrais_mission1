@@ -1,4 +1,6 @@
 <?php
+use SebastianBergmann\CodeCoverage\Driver\Xdebug;
+
 /**
  * Classe d'accès aux données.
  *
@@ -6,7 +8,7 @@
  * 
  *
  * @category  PPE
- * @package   GSB
+ * @package   GSB\Includes
  * @author    Cheri Bibi - Réseau CERTA <contact@reseaucerta.org>
  * @author    José GIL - CNED <jgil@ac-nice.fr>
  * @copyright 2017 Réseau CERTA
